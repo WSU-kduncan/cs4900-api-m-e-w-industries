@@ -1,6 +1,7 @@
 package com.MEW.demo.service;
 import com.MEW.demo.model.User;
 import com.MEW.demo.repository.ConsoleRepository;
+import com.MEW.demo.repository.GameRepository;
 import com.MEW.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,11 @@ public class UserService {
     
     private final UserRepository userRepository;
     private final ConsoleRepository consoleRepository;
+    private final GameRepository gameRepository;
 
     public List<User> convertDtosToUsers(List<UserDto> userDtos) throws EntityNotFoundException {
         return userDtos.stream()
-            .map(dto -> dto.toEntity(consoleRepository))
+            .map(dto -> dto.toEntity(consoleRepository, gameRepository))
             .toList();
         }
 

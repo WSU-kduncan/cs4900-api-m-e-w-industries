@@ -5,7 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -34,11 +33,6 @@ public class Game {
     @ManyToOne
     private Genre primaryGenre;
 
-    @ManyToMany
-    @JoinTable(
-        name = "UserGames",
-        joinColumns = @JoinColumn(name = "Game"),
-        inverseJoinColumns = @JoinColumn(name = "User")
-    )
+    @ManyToMany(mappedBy = "games")
     private java.util.Set<User> users = new java.util.HashSet<>();
 }

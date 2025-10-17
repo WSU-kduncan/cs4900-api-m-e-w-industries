@@ -1,5 +1,6 @@
 package com.MEW.demo.model;
 import java.time.LocalDate;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -51,11 +52,12 @@ public class User {
     @Column(name = "About_User", nullable = true, length = 500)
     private String aboutUser;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
         name = "UserGames",
         joinColumns = @JoinColumn(name = "User"),
         inverseJoinColumns = @JoinColumn(name = "Game")
     )
-    private final java.util.Set<Game> games = new java.util.HashSet<>();
+    @Builder.Default
+    private java.util.Set<Game> games = new java.util.HashSet<>();
 }
