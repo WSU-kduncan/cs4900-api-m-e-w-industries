@@ -26,7 +26,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers() throws EntityNotFoundException {
         return new ResponseEntity<>(
-            userDtoMapper.toDtoList(userService.getAllUsers()), HttpStatus.OK);
+            userDtoMapper.toDtoList(userService.convertDtosToUsers(userService.getAllUsers())), HttpStatus.OK);
     }
 
     @GetMapping("/{userId}")

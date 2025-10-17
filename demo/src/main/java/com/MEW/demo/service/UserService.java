@@ -1,8 +1,10 @@
 package com.MEW.demo.service;
 import com.MEW.demo.model.User;
+import com.MEW.demo.repository.ConsoleRepository;
 import com.MEW.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.MEW.demo.dto.UserDto;
 import com.MEW.demo.exception.EntityNotFoundException;
 import java.util.Optional;
 import java.util.List;
@@ -12,9 +14,24 @@ import java.util.List;
 public class UserService {
     
     private final UserRepository userRepository;
+    private final ConsoleRepository consoleRepository;
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<User> convertDtosToUsers(List<UserDto> userDtos) throws EntityNotFoundException {
+        return userDtos.stream()
+            .map(dto -> dto.toEntity(consoleRepository))
+            .toList();
+        }
+
+    public List<UserDto> getAllUsers() throws EntityNotFoundException {
+
+        List<UserDto> userDto = userRepository.findAll()
+            .stream()
+            .map(UserDto::fromEntity)
+            .toList();
+
+        List<UserDto> modifiableList = new java.util.ArrayList<>(userDto);
+
+        return modifiableList;
     }
     
     public User getUserById(Integer userId) throws EntityNotFoundException {
