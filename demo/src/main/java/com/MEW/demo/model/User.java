@@ -37,7 +37,7 @@ public class User {
     @Column(name = "Gamertag", nullable = false, length = 25)
     private String gamertag;
 
-    @JoinColumn(name = "Console_Id", nullable = false)
+    @JoinColumn(name = "Preferred_Console", nullable = false)
     @ManyToOne
     private Console console;
 

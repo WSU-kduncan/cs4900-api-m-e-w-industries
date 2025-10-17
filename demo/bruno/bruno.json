@@ -1,9 +1,15 @@
 {
-	"version": "1",
-	"name": "GamerMatch",
-	"type": "collection",
-	"ignore": [
-		"node_modules",
-		".git"
-		]
+  "version": "1",
+  "name": "GamerMatch",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ],
+  "size": 0.0005521774291992188,
+  "filesCount": 5,
+  "presets": {
+    "requestType": "http",
+    "requestUrl": "localhost:8080/GamerMatch"
+  }
 }
