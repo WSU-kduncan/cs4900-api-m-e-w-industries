@@ -1,0 +1,16 @@
+meta {
+	name: GetUserByFirstName
+	type: http
+	seq: 3
+}
+get {
+	url: {{BASE_URL}}/users/:firstName
+	body: none
+	auth: inherit
+}
+params:path {
+	firstName: Joe
+}
+settings {
+	encodeUrl: true
+}
