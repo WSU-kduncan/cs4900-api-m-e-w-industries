@@ -57,5 +57,5 @@ public class User {
         joinColumns = @JoinColumn(name = "User"),
         inverseJoinColumns = @JoinColumn(name = "Game")
     )
-    private java.util.Set<Game> games = new java.util.HashSet<>();
+    private final java.util.Set<Game> games = new java.util.HashSet<>();
 }
