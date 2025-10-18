@@ -59,5 +59,6 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "Game")
     )
     @Builder.Default
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"users"})
     private java.util.Set<Game> games = new java.util.HashSet<>();
 }

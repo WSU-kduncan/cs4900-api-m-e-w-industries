@@ -41,5 +41,6 @@ public class Game {
 
     @ManyToMany(mappedBy = "games")
     @Builder.Default
+    @com.fasterxml.jackson.annotation.JsonIgnore 
     private java.util.Set<User> users = new java.util.HashSet<>();
 }
