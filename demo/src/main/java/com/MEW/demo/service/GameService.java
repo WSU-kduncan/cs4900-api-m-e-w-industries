@@ -1,4 +1,5 @@
 package com.MEW.demo.service;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -7,7 +8,6 @@ import com.MEW.demo.exception.EntityNotFoundException;
 import com.MEW.demo.model.Game;
 import com.MEW.demo.repository.GameRepository;
 import com.MEW.demo.repository.GenreRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -19,8 +19,16 @@ public class GameService {
 
     public List<Game> convertDtosToGames(List<GameDto> gameDtos) throws EntityNotFoundException {
         
-        return gameDtos.stream()
-            .map(dto -> dto.toEntity(genreRepository))
+        return new ArrayList<>(gameDtos).stream()
+            .map(dto -> {
+                try {
+                    return dto.toEntity(genreRepository);
+                } catch (EntityNotFoundException e) {
+                    e.getLocalizedMessage();
+                    e.printStackTrace();
+                }
+                return null;
+            })
             .toList();
     }
 

@@ -1,6 +1,9 @@
 package com.MEW.demo.dto;
 import lombok.Value;
+
+import com.MEW.demo.exception.EntityNotFoundException;
 import com.MEW.demo.model.Game;
+import com.MEW.demo.model.Genre;
 import com.MEW.demo.repository.GenreRepository;
 
 import lombok.Builder;
@@ -28,22 +31,22 @@ public class GameDto {
             );
     }
 
-    public Game toEntity(GenreRepository genreRepository) {
+    public Game toEntity(GenreRepository genreRepository) throws EntityNotFoundException{
         
-        Game.GameBuilder gameBuilder = Game.builder()
-            .gameId(this.gameId)
-            .gameTitle(this.gameTitle)
-            .singlePlayer(this.isSinglePlayer)
-            .multiPlayer(this.isMultiPlayer);
-        
+
+        Genre genre = null;
         if(this.primaryGenreId != null) {
-            gameBuilder.primaryGenre(
-                genreRepository.findById(this.primaryGenreId).orElseThrow(
+            genre = genreRepository.findById(this.primaryGenreId).orElseThrow(
                     () -> new IllegalArgumentException("Genre with ID " + this.primaryGenreId + " not found.")
-                )
             );
         }
 
-        return gameBuilder.build();
+        return Game.builder()
+            .gameId(this.gameId)
+            .gameTitle(this.gameTitle)
+            .singlePlayer(this.isSinglePlayer)
+            .multiPlayer(this.isMultiPlayer)
+            .primaryGenre(genre)
+            .build();
     }
 }

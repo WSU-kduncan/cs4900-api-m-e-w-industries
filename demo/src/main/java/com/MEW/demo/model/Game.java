@@ -1,4 +1,7 @@
 package com.MEW.demo.model;
+import java.util.HashSet;
+import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,15 +13,21 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Builder
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "Game")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(exclude = {"users", "primaryGenre"})
 public class Game {
     
     @Id
@@ -41,6 +50,6 @@ public class Game {
 
     @ManyToMany(mappedBy = "games")
     @Builder.Default
-    @com.fasterxml.jackson.annotation.JsonIgnore 
-    private java.util.Set<User> users = new java.util.HashSet<>();
+    @JsonIgnore 
+    private Set<User> users = new HashSet<>();
 }
