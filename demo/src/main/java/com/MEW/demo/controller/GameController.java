@@ -35,4 +35,11 @@ public class GameController {
         return new ResponseEntity<>(
             gameDtoMapper.toDto(gameService.getGameById(gameId)), HttpStatus.OK);
     }
+
+    @GetMapping("/game/{gameTitle}")
+    public ResponseEntity<GameDto> getGameByTitle(@PathVariable String gameTitle) throws EntityNotFoundException {
+
+        return new ResponseEntity<>(
+            gameDtoMapper.toDto(gameService.getGameByTitle(gameTitle)), HttpStatus.OK);
+    }
 }
