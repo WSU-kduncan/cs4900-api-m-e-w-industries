@@ -1,5 +1,6 @@
 package com.MEW.demo.controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.MEW.demo.dto.GameDto;
@@ -24,7 +25,15 @@ public class GameController {
     
     @GetMapping
     public ResponseEntity<List<GameDto>> getAllGames() throws EntityNotFoundException {
+        
         return new ResponseEntity<>(
             gameDtoMapper.toDtoList(gameService.convertDtosToGames(gameService.getAllGames())), HttpStatus.OK);
+    }
+
+    @GetMapping("/{gameId}")
+    public ResponseEntity<GameDto> getGameById(@PathVariable Integer gameId) throws EntityNotFoundException {
+
+        return new ResponseEntity<>(
+            gameDtoMapper.toDto(gameService.getGameById(gameId)), HttpStatus.OK);
     }
 }
