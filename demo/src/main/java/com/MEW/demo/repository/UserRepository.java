@@ -27,4 +27,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByFirstNameWithGamesAndConsole(String firstName);
 
     Optional<User> findByFirstName(String firstName);
+
+    Optional<User> findByFirstNameIgnoreCase(String firstName);
+
+    boolean existsByEmail(String email);
+    
+    boolean existsByGamertag(String gamertag);
 }

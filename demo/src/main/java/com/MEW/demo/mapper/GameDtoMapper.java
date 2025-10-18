@@ -19,6 +19,9 @@ public interface GameDtoMapper {
     Game toEntity(GameDto gameDto) throws EntityNotFoundException;
 
     @Mapping(target = "primaryGenre", source = "primaryGenre")
+    @Mapping(target = "userIds", 
+             expression = "java(game.getUsers() != null ? game.getUsers().stream().map(User::getUserId).collect(java.util.stream.Collectors.toSet())" + 
+                         ": java.util.Collections.emptySet())")
     GameDto toDto(Game game) throws EntityNotFoundException;
 
     List<GameDto> toDtoList(List<Game> gameList) throws EntityNotFoundException;

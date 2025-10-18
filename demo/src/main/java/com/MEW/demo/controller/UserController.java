@@ -3,14 +3,21 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import lombok.RequiredArgsConstructor;
 import com.MEW.demo.dto.UserDto;
 import com.MEW.demo.mapper.UserDtoMapper;
 import com.MEW.demo.service.UserService;
+
+import jakarta.validation.Valid;
+
 import java.util.List;
 import com.MEW.demo.exception.EntityNotFoundException;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import com.MEW.demo.model.User;
 
 @RequiredArgsConstructor
@@ -42,5 +49,11 @@ public class UserController {
         
         User user = userService.getUserByFirstName(firstName);
         return ResponseEntity.ok(userDtoMapper.toDto(user));
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) throws EntityNotFoundException {
+        UserDto createdUser = userService.createUser(userDto);
+        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 }
