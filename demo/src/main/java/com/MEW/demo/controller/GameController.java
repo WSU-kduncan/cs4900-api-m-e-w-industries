@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.MEW.demo.dto.GameDto;
 import com.MEW.demo.exception.EntityNotFoundException;
 import com.MEW.demo.mapper.GameDtoMapper;
+import com.MEW.demo.model.Game;
 import com.MEW.demo.service.GameService;
 import java.util.List;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import lombok.RequiredArgsConstructor;
@@ -25,21 +25,32 @@ public class GameController {
     @GetMapping
     public ResponseEntity<List<GameDto>> getAllGames() throws EntityNotFoundException {
         
-        return new ResponseEntity<>(
-            gameDtoMapper.toDtoList(gameService.convertDtosToGames(gameService.getAllGames())), HttpStatus.OK);
+        List<GameDto> dtos = gameDtoMapper.toDtoList(gameService.getAllGames());
+        
+        return ResponseEntity.ok(dtos);
     }
 
-    @GetMapping("/game/{gameId}")
-    public ResponseEntity<GameDto> getGameById(@PathVariable Integer gameId) throws EntityNotFoundException {
+    @GetMapping("/id/{gameId}")
+    public ResponseEntity<GameDto> getGameById(@PathVariable("gameId") Integer gameId) throws EntityNotFoundException {
 
-        return new ResponseEntity<>(
-            gameDtoMapper.toDto(gameService.getGameById(gameId)), HttpStatus.OK);
+        Game game = gameService.getGameById(gameId);
+        return ResponseEntity.ok(gameDtoMapper.toDto(game));
     }
 
-    @GetMapping("/game/{gameTitle}")
-    public ResponseEntity<GameDto> getGameByTitle(@PathVariable String gameTitle) throws EntityNotFoundException {
+    @GetMapping("/title/{gameTitle}")
+    public ResponseEntity<GameDto> getGameByTitle(@PathVariable("gameTitle") String gameTitle) throws EntityNotFoundException {
 
-        return new ResponseEntity<>(
-            gameDtoMapper.toDto(gameService.getGameByTitle(gameTitle)), HttpStatus.OK);
+        Game game = gameService.getGameByTitle(gameTitle);
+        return ResponseEntity.ok(gameDtoMapper.toDto(game));
+    }
+
+    @GetMapping("/debug")
+    public ResponseEntity<String> debug() {
+        return ResponseEntity.ok("GameController reachable");
+    }
+
+    @GetMapping("/ping")
+    public ResponseEntity<String> ping() {
+        return ResponseEntity.ok("GameController is alive!");
     }
 }

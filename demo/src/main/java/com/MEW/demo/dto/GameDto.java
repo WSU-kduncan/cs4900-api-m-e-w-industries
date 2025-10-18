@@ -1,6 +1,8 @@
 package com.MEW.demo.dto;
 import lombok.Value;
 
+import java.util.Set;
+
 import com.MEW.demo.exception.EntityNotFoundException;
 import com.MEW.demo.model.Game;
 import com.MEW.demo.model.Genre;
@@ -18,7 +20,9 @@ public class GameDto {
     private String gameTitle;
     private boolean isSinglePlayer;
     private boolean isMultiPlayer;
-    private Integer primaryGenreId;
+    private GenreDto primaryGenre;
+    private Set<Integer> userIds;
+
 
     public static GameDto fromEntity(Game game) {
         
@@ -27,7 +31,10 @@ public class GameDto {
             game.getGameTitle(),
             game.isSinglePlayer(),
             game.isMultiPlayer(),
-            game.getPrimaryGenre().getGenreId()
+            game.getPrimaryGenre() != null ? GenreDto.fromEntity(game.getPrimaryGenre()) : null,
+            game.getUsers() != null ? game.getUsers().stream()
+                .map(user -> user.getUserId())
+                .collect(java.util.stream.Collectors.toSet()) : null
             );
     }
 
@@ -35,9 +42,9 @@ public class GameDto {
 
         Genre genre = null;
         
-        if(this.primaryGenreId != null) {
-            genre = genreRepository.findById(this.primaryGenreId).orElseThrow(
-                    () -> new IllegalArgumentException("Genre with ID " + this.primaryGenreId + " not found.")
+        if(this.primaryGenre.getGenreId() != null) {
+            genre = genreRepository.findById(this.primaryGenre.getGenreId()).orElseThrow(
+                    () -> new IllegalArgumentException("Genre with ID " + this.primaryGenre.getGenreId() + " not found.")
             );
         }
 

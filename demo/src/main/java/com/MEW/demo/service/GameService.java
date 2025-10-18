@@ -1,7 +1,6 @@
 package com.MEW.demo.service;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 import com.MEW.demo.dto.GameDto;
 import com.MEW.demo.exception.EntityNotFoundException;
@@ -32,23 +31,20 @@ public class GameService {
             .toList();
     }
 
-    public List<GameDto> getAllGames() throws EntityNotFoundException {
+    public List<Game> getAllGames() throws EntityNotFoundException {
         
-        List<GameDto> gameDto = gameRepository.findAll()
-            .stream()
-            .map(GameDto::fromEntity)
-            .toList();
-
-             List<GameDto> modifiableList = new java.util.ArrayList<>(gameDto);
-             return modifiableList;
+        return gameRepository.findAll();
     }
 
     public Game getGameById(Integer gameId) throws EntityNotFoundException {
         
-        Optional<Game> result = gameRepository.findById(gameId);
-        if (result.isEmpty()) {
-            throw new EntityNotFoundException("User with ID " + gameId + " not found.");
-        }
-        return result.get();
+        return gameRepository.findById(gameId)
+            .orElseThrow(() -> new EntityNotFoundException("Game not found with ID " + gameId));
+    }
+
+    public Game getGameByTitle(String gameTitle) throws EntityNotFoundException {
+        
+         return gameRepository.findByGameTitle(gameTitle)
+            .orElseThrow(() -> new EntityNotFoundException("Game not found with title '" + gameTitle + "'"));
     }
 }
