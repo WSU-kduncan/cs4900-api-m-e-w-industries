@@ -29,7 +29,7 @@ public class GameController {
             gameDtoMapper.toDtoList(gameService.convertDtosToGames(gameService.getAllGames())), HttpStatus.OK);
     }
 
-    @GetMapping("/{gameId}")
+    @GetMapping("/game/{gameId}")
     public ResponseEntity<GameDto> getGameById(@PathVariable Integer gameId) throws EntityNotFoundException {
 
         return new ResponseEntity<>(

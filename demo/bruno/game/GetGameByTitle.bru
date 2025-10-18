@@ -1,0 +1,16 @@
+meta {
+	name: GetGameByTitle
+	type: http
+	seq: 3
+}
+get {
+	url:{{BASE_URL}}/games/game/:title
+	body: none
+	auth: inherit
+}
+params:path {
+	title: Fortnite
+}
+settings {
+	encodeUrl: true
+}

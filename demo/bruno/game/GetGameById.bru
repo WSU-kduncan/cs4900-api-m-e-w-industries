@@ -1,0 +1,16 @@
+meta {
+	name: GetGameById
+	type: http
+	seq: 2
+}
+get {
+	{{BASE_URL}}/games/game/:id
+	body: none
+	auth: inherit
+}
+params:path {
+	id: 1
+}
+settings {
+	encodeUrl: true
+}
