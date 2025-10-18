@@ -22,7 +22,7 @@ public class UserService {
         return userDtos.stream()
             .map(dto -> dto.toEntity(consoleRepository, gameRepository))
             .toList();
-        }
+    }
 
     public List<UserDto> getAllUsers() throws EntityNotFoundException {
 
