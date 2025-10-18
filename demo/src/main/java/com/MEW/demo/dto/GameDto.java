@@ -1,28 +1,50 @@
 package com.MEW.demo.dto;
-import lombok.Value;
-
+import java.util.HashSet;
 import java.util.Set;
-
 import com.MEW.demo.exception.EntityNotFoundException;
 import com.MEW.demo.model.Game;
 import com.MEW.demo.model.Genre;
 import com.MEW.demo.repository.GenreRepository;
-
 import lombok.Builder;
 import lombok.Data;
 
 @Builder
 @Data
-@Value
 public class GameDto {
     
     private Integer gameId;
     private String gameTitle;
-    private boolean isSinglePlayer;
-    private boolean isMultiPlayer;
+    private boolean singlePlayer;
+    private boolean multiPlayer;
     private GenreDto primaryGenre;
-    private Set<Integer> userIds;
+    @Builder.Default
+    private Set<Integer> userIds = new HashSet<>();
 
+    GameDto(
+        Integer gameId,
+        String gameTitle,
+        boolean singlePlayer,
+        boolean multiPlayer,
+        GenreDto primaryGenre,
+        Set<Integer> userIds
+    ) {
+        this.gameId = gameId;
+        this.gameTitle = gameTitle;
+        this.singlePlayer = singlePlayer;
+        this.multiPlayer = multiPlayer;
+        this.primaryGenre = primaryGenre;
+        this.userIds = userIds != null ? userIds : new HashSet<>();
+    }
+
+    public GameDto(
+        Integer gameId,
+        String gameTitle,
+        boolean singlePlayer,
+        boolean multiPlayer,
+        GenreDto primaryGenre
+    ) {
+        this(gameId, gameTitle, singlePlayer, multiPlayer, primaryGenre, null);
+    }
 
     public static GameDto fromEntity(Game game) {
         
@@ -51,9 +73,18 @@ public class GameDto {
         return Game.builder()
             .gameId(this.gameId)
             .gameTitle(this.gameTitle)
-            .singlePlayer(this.isSinglePlayer)
-            .multiPlayer(this.isMultiPlayer)
+            .singlePlayer(this.singlePlayer)
+            .multiPlayer(this.multiPlayer)
             .primaryGenre(genre)
             .build();
+    }
+
+    public void setUserIds(Set<Integer> userIds) {
+        
+        if (userIds == null) {
+            this.userIds = new HashSet<>();
+        } else {
+            this.userIds = userIds;
+        }
     }
 }
