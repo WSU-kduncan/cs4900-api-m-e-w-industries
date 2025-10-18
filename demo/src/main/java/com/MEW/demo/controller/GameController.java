@@ -16,8 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping( path = "/games",
-                 produces = MediaType.APPLICATION_JSON_VALUE,
-                 consumes = MediaType.APPLICATION_JSON_VALUE)
+                 produces = MediaType.APPLICATION_JSON_VALUE)
 public class GameController {
     
     private final GameService gameService;

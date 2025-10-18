@@ -1,4 +1,8 @@
 package com.MEW.demo.dto;
+import java.time.LocalDate;
+import java.util.Set;
+import java.util.stream.Collectors;
+import com.MEW.demo.model.Console;
 import com.MEW.demo.model.Game;
 import com.MEW.demo.model.User;
 import com.MEW.demo.repository.ConsoleRepository;
@@ -12,58 +16,71 @@ import lombok.Value;
 @Value
 public class UserDto {
     
-    private int userId;
+    private Integer userId;
     private String firstName;
     private String lastName;
-    private String dob;
+    private LocalDate dob;
     private String email;
     private String gamertag;
     private Integer consoleId;
     private String aboutUser;
-    private java.util.Set<Integer> gameIds;
+    private Set<Integer> gameIds;
 
     public User toEntity(ConsoleRepository consoleRepository, GameRepository gameRepository) {
 
         User.UserBuilder userBuilder = User.builder()
-            .userId(this.userId)
+            .userId(this.userId != null ? this.userId : 0)
             .firstName(this.firstName)
             .lastName(this.lastName)
-            .dob(java.time.LocalDate.parse(this.dob))
+            .dob(this.dob)
             .email(this.email)
             .gamertag(this.gamertag)
             .aboutUser(this.aboutUser);
 
             if(this.consoleId != null) {
-                userBuilder.preferredConsole(
-                    consoleRepository.findById(this.consoleId).orElseThrow(
-                        () -> new IllegalArgumentException("Console with ID " + this.consoleId + " not found.")
-                    )
-                );
+                
+                Console console = consoleRepository.findById(this.consoleId)
+                    .orElseThrow(() -> new IllegalArgumentException(
+                        "Console with ID " + this.consoleId + " not found."));
+
+                userBuilder.preferredConsole(console);
             }
 
-            if(this.gameIds != null) {
-                java.util.Set<Game> games = this.gameIds.stream()
-                    .map(gameId -> gameRepository.findById(gameId).orElseThrow(
-                        () -> new IllegalArgumentException("Game with ID " + gameId + " not found.")
-                    ))
-                    .collect(java.util.stream.Collectors.toSet());
-                userBuilder.games(games);
-            }
+            if(this.gameIds != null && !this.gameIds.isEmpty()) {
+                
+                Set<Game> games = this.gameIds.stream()
+                    .map(gameId -> gameRepository.findById(gameId)
+                            .orElseThrow(() -> new IllegalArgumentException(
+                                    "Game with ID " + gameId + " not found.")))
+                    .collect(Collectors.toSet());
+            userBuilder.games(games);
+        }
 
         return userBuilder.build();
     }
 
     public static UserDto fromEntity(User user) {
+        
+        if (user == null) return null;
+
         return UserDto.builder()
             .userId(user.getUserId())
             .firstName(user.getFirstName())
             .lastName(user.getLastName())
-            .dob(user.getDob().toString())
+            .dob(user.getDob())
             .email(user.getEmail())
             .gamertag(user.getGamertag())
-            .consoleId(user.getPreferredConsole().getConsoleId())
+            .consoleId(
+                user.getPreferredConsole() != null ? user.getPreferredConsole().getConsoleId() : null
+            )
             .aboutUser(user.getAboutUser())
-            .gameIds(user.getGames().stream().map(game -> game.getGameId()).collect(java.util.stream.Collectors.toSet()))
+            .gameIds(
+                user.getGames() != null
+                    ? user.getGames().stream()
+                        .map(Game::getGameId)
+                        .collect(Collectors.toSet())
+                    : null
+            )
             .build();
     }
 }

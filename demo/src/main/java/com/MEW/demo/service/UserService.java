@@ -7,8 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.MEW.demo.dto.UserDto;
 import com.MEW.demo.exception.EntityNotFoundException;
-import java.util.Optional;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -19,38 +20,28 @@ public class UserService {
     private final GameRepository gameRepository;
 
     public List<User> convertDtosToUsers(List<UserDto> userDtos) throws EntityNotFoundException {
+        
         return userDtos.stream()
             .map(dto -> dto.toEntity(consoleRepository, gameRepository))
             .toList();
     }
 
-    public List<UserDto> getAllUsers() throws EntityNotFoundException {
+    public List<User> getAllUsers() throws EntityNotFoundException {
 
-        List<UserDto> userDto = userRepository.findAll()
+        return userRepository.findAllWithGamesAndConsole()
             .stream()
-            .map(UserDto::fromEntity)
-            .toList();
-
-        List<UserDto> modifiableList = new java.util.ArrayList<>(userDto);
-
-        return modifiableList;
+            .collect(Collectors.toList());
     }
     
     public User getUserById(Integer userId) throws EntityNotFoundException {
-        Optional<User> result = userRepository.findById(userId);
-        if (result.isEmpty()) {
-            throw new EntityNotFoundException("User with ID " + userId + " not found.");
-        }
-        return result.get();
+        
+        Optional<User> optionalUser = userRepository.findById(userId);
+        return User.fromOptional(optionalUser, "ID=" + userId);
     }
 
     public User getUserByFirstName(String firstName) throws EntityNotFoundException {
-        List<User> users = userRepository.findAll();
-        for (User user : users) {
-            if (user.getFirstName().equalsIgnoreCase(firstName)) {
-                return user;
-            }
-        }
-        throw new EntityNotFoundException("User with first name " + firstName + " not found.");
+        
+        Optional<User> optionalUser = userRepository.findByFirstName(firstName);
+        return User.fromOptional(optionalUser, "firstName=" + firstName);
     }
 }

@@ -1,5 +1,8 @@
 package com.MEW.demo.model;
 import java.time.LocalDate;
+import java.util.Optional;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,9 +31,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(exclude = "games")
 public class User {
 	
+    @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "User_Id", nullable = false)
@@ -53,6 +56,7 @@ public class User {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Preferred_Console", referencedColumnName = "Console_Id", nullable = false)
+    @ToString.Exclude
     private Console preferredConsole;
 
     @Column(name = "About_User", nullable = true, length = 500)
@@ -65,6 +69,13 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "Game")
     )
     @Builder.Default
-    @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"users"})
+    @ToString.Exclude
+    @JsonIgnoreProperties({"users"})
     private java.util.Set<Game> games = new java.util.HashSet<>();
+
+    public static User fromOptional(Optional<User> optionalUser, String identifier) {
+        
+        return optionalUser.orElseThrow(() -> new IllegalArgumentException(
+            "User with identifier " + identifier + " not found."));
+    }
 }

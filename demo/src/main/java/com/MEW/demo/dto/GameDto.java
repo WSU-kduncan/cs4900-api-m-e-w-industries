@@ -32,9 +32,9 @@ public class GameDto {
     }
 
     public Game toEntity(GenreRepository genreRepository) throws EntityNotFoundException{
-        
 
         Genre genre = null;
+        
         if(this.primaryGenreId != null) {
             genre = genreRepository.findById(this.primaryGenreId).orElseThrow(
                     () -> new IllegalArgumentException("Genre with ID " + this.primaryGenreId + " not found.")

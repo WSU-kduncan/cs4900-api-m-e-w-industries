@@ -1,6 +1,5 @@
 package com.MEW.demo.model;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,24 +8,26 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Builder
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "Console")
-@ToString(exclude = "users")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Console {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     @Column(name = "Console_Id", nullable = false)
     private int consoleId;
 
@@ -34,6 +35,7 @@ public class Console {
     private String consoleName;
 
     @OneToMany(mappedBy = "preferredConsole")
-    @JsonIgnore
+    @Builder.Default
+    @ToString.Exclude
     private List<User> users = new java.util.ArrayList<>();  
 }
