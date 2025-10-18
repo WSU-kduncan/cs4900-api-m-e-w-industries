@@ -1,7 +1,8 @@
 package com.MEW.demo.dto;
 import lombok.Value;
 import com.MEW.demo.model.Game;
-import com.MEW.demo.model.Genre;
+import com.MEW.demo.repository.GenreRepository;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -27,7 +28,7 @@ public class GameDto {
             );
     }
 
-    public Game toEntity() {
+    public Game toEntity(GenreRepository genreRepository) {
         
         Game.GameBuilder gameBuilder = Game.builder()
             .gameId(this.gameId)
@@ -37,9 +38,9 @@ public class GameDto {
         
         if(this.primaryGenreId != null) {
             gameBuilder.primaryGenre(
-                Genre.builder()
-                    .genreId(this.primaryGenreId)
-                    .build()
+                genreRepository.findById(this.primaryGenreId).orElseThrow(
+                    () -> new IllegalArgumentException("Genre with ID " + this.primaryGenreId + " not found.")
+                )
             );
         }
 

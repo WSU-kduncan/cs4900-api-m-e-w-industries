@@ -6,6 +6,8 @@ import com.MEW.demo.dto.GameDto;
 import com.MEW.demo.exception.EntityNotFoundException;
 import com.MEW.demo.model.Game;
 import com.MEW.demo.repository.GameRepository;
+import com.MEW.demo.repository.GenreRepository;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -13,11 +15,12 @@ import lombok.RequiredArgsConstructor;
 public class GameService {
     
     private final GameRepository gameRepository;
+    private final GenreRepository genreRepository;
 
     public List<Game> convertDtosToGames(List<GameDto> gameDtos) throws EntityNotFoundException {
         
         return gameDtos.stream()
-            .map(GameDto::toEntity)
+            .map(dto -> dto.toEntity(genreRepository))
             .toList();
     }
 
