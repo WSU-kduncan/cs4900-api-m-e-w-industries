@@ -1,25 +1,32 @@
 meta {
-	name: CreateNewUser
-	type: http
-	seq: 3
+  name: CreateNewUser
+  type: http
+  seq: 4
 }
+
 post {
-	url: {{BASE_URL}}/users
-	body: json
-	auth: inherit
+  url: {{BASE_URL}}/users
+  body: json
+  auth: inherit
 }
+
 body:json {
-	{
-	"firstName": "John",
-	"lastName": "Doe",
-	"dob": "2006-06-06",
-	"email": "leAntichrist@gmail.com",
-	"gamertag": "D33vil",
-	"consoleId": 2,
-	"aboutUser": "This is a test.",
-	"gameIds": [1, 2]
-	}
+  {
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "dob": "1995-02-14",
+    "email": "JaneDOH@gmail.com",
+    "gamertag": "DohDoh",
+    "consoleId": 3,
+    "aboutUser": "This is a test.",
+    "gameIds": [
+      1,
+      2
+    ]
+  }
 }
+
 settings {
-	encodeUrl: true
+  encodeUrl: true
+  timeout: 0
 }

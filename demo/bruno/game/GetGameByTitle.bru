@@ -1,16 +1,19 @@
 meta {
-	name: GetGameByTitle
-	type: http
-	seq: 3
+  name: GetGameByTitle
+  type: http
+  seq: 3
 }
+
 get {
-	url:{{BASE_URL}}/games/title/:title
-	body: none
-	auth: inherit
+  url: {{BASE_URL}}/games/title/:title
+  body: none
+  auth: inherit
 }
+
 params:path {
-	title: Fortnite
+  title: Resident Evil
 }
+
 settings {
-	encodeUrl: true
+  encodeUrl: true
 }
