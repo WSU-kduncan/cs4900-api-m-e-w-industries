@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import com.MEW.demo.dto.GameDto;
 import com.MEW.demo.exception.EntityNotFoundException;
-import com.MEW.demo.mapper.GameDtoMapper;
+//import com.MEW.demo.mapper.GameDtoMapper;
 import com.MEW.demo.model.Game;
 import com.MEW.demo.model.Genre;
 import com.MEW.demo.repository.GameRepository;
@@ -18,7 +18,7 @@ public class GameService {
     
     private final GameRepository gameRepository;
     private final GenreRepository genreRepository;
-    private final GameDtoMapper gameDtoMapper;
+    //private final GameDtoMapper gameDtoMapper;
 
     public List<Game> convertDtosToGames(List<GameDto> gameDtos) throws EntityNotFoundException {
         
@@ -55,7 +55,7 @@ public class GameService {
     @Transactional
     public GameDto createGame(GameDto dto) throws EntityNotFoundException {
         
-        Game game = gameDtoMapper.toEntity(dto);
+        Game game = new Game();
 
         if (dto.getPrimaryGenre() != null && dto.getPrimaryGenre().getGenreId() != null) {
             Genre genre = genreRepository.findById(dto.getPrimaryGenre().getGenreId())
@@ -65,6 +65,6 @@ public class GameService {
 
         Game savedGame = gameRepository.save(game);
         
-        return gameDtoMapper.toDto(savedGame);
+        return GameDto.fromEntity(savedGame);
     }
 }

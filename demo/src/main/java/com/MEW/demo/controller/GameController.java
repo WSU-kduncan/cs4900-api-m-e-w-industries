@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.MEW.demo.dto.GameDto;
 import com.MEW.demo.exception.EntityNotFoundException;
-import com.MEW.demo.mapper.GameDtoMapper;
+//import com.MEW.demo.mapper.GameDtoMapper;
 import com.MEW.demo.model.Game;
 import com.MEW.demo.service.GameService;
 import java.util.List;
@@ -24,12 +24,14 @@ import lombok.RequiredArgsConstructor;
 public class GameController {
     
     private final GameService gameService;
-    private final GameDtoMapper gameDtoMapper;
+    //private final GameDtoMapper gameDtoMapper;
     
     @GetMapping
     public ResponseEntity<List<GameDto>> getAllGames() throws EntityNotFoundException {
         
-        List<GameDto> dtos = gameDtoMapper.toDtoList(gameService.getAllGames());
+        List<GameDto> dtos = gameService.getAllGames().stream()
+                                    .map(GameDto::fromEntity)
+                                    .toList();
         
         return ResponseEntity.ok(dtos);
     }
@@ -38,14 +40,14 @@ public class GameController {
     public ResponseEntity<GameDto> getGameById(@PathVariable("gameId") Integer gameId) throws EntityNotFoundException {
 
         Game game = gameService.getGameById(gameId);
-        return ResponseEntity.ok(gameDtoMapper.toDto(game));
+        return ResponseEntity.ok(GameDto.fromEntity(game));
     }
 
     @GetMapping("/title/{gameTitle}")
     public ResponseEntity<GameDto> getGameByTitle(@PathVariable("gameTitle") String gameTitle) throws EntityNotFoundException {
 
         Game game = gameService.getGameByTitle(gameTitle);
-        return ResponseEntity.ok(gameDtoMapper.toDto(game));
+        return ResponseEntity.ok(GameDto.fromEntity(game));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

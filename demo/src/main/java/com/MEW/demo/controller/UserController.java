@@ -7,17 +7,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import lombok.RequiredArgsConstructor;
 import com.MEW.demo.dto.UserDto;
-import com.MEW.demo.mapper.UserDtoMapper;
+//import com.MEW.demo.mapper.UserDtoMapper;
 import com.MEW.demo.service.UserService;
-
 import jakarta.validation.Valid;
-
 import java.util.List;
 import com.MEW.demo.exception.EntityNotFoundException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import com.MEW.demo.model.User;
 
 @RequiredArgsConstructor
@@ -26,14 +23,16 @@ import com.MEW.demo.model.User;
                  produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 
-    private final UserDtoMapper userDtoMapper;
+    //private final UserDtoMapper userDtoMapper;
     private final UserService userService;
 
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers() throws EntityNotFoundException {
         
         List<User> users = userService.getAllUsers();
-        List<UserDto> dtos = userDtoMapper.toDtoList(users);
+        List<UserDto> dtos = users.stream()
+                                    .map(UserDto::fromEntity)
+                                    .toList();
         return ResponseEntity.ok(dtos);
     }
 
@@ -41,14 +40,14 @@ public class UserController {
     public ResponseEntity<UserDto> getUserById(@PathVariable Integer userId) throws EntityNotFoundException {
         
         User user = userService.getUserById(userId);
-        return ResponseEntity.ok(userDtoMapper.toDto(user));
+        return ResponseEntity.ok(UserDto.fromEntity(user));
     }
 
     @GetMapping("/name/{firstName}")
     public ResponseEntity<UserDto> getUserByFirstName(@PathVariable String firstName) throws EntityNotFoundException {
         
         User user = userService.getUserByFirstName(firstName);
-        return ResponseEntity.ok(userDtoMapper.toDto(user));
+        return ResponseEntity.ok(UserDto.fromEntity(user));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

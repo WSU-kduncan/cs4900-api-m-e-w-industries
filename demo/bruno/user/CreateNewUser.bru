@@ -1,0 +1,25 @@
+meta {
+	name: CreateNewUser
+	type: http
+	seq: 3
+}
+post {
+	url: {{BASE_URL}}/users
+	body: json
+	auth: inherit
+}
+body:json {
+	{
+	"firstName": "John",
+	"lastName": "Doe",
+	"dob": "2006-06-06",
+	"email": "leAntichrist@gmail.com",
+	"gamertag": "D33vil",
+	"consoleId": 2,
+	"aboutUser": "This is a test.",
+	"gameIds": [1, 2]
+	}
+}
+settings {
+	encodeUrl: true
+}

@@ -17,5 +17,4 @@ public class GamerMatchApplication {
 	CommandLineRunner testScan(GameController gameController) {
    		return args -> System.out.println("GameController scanned: " + gameController);
 	}
-
 }
