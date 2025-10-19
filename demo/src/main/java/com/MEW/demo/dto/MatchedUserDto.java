@@ -19,7 +19,7 @@ public class MatchedUserDto {
         return MatchedUserDto.builder()
                 .userId1(match.getUser1().getUserId())
                 .userId2(match.getUser2().getUserId())
-                .isMatched(match.isMatched())
+                .isMatched(match.getIsMatched())
                 .user1(UserDto.fromEntity(match.getUser1()))
                 .user2(UserDto.fromEntity(match.getUser2()))
                 .build();

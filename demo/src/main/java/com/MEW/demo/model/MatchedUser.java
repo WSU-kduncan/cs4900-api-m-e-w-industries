@@ -1,4 +1,5 @@
 package com.MEW.demo.model;
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -25,5 +26,6 @@ public class MatchedUser {
     @JoinColumn(name = "Liked_User", nullable = false)
     private User user2;
 
-    private boolean isMatched;
+    @Column(name = "Is_Matched", nullable = true, columnDefinition = "TINYINT(1)")
+    private Boolean isMatched;
 }

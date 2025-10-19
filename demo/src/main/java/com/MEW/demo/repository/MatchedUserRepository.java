@@ -10,8 +10,8 @@ import com.MEW.demo.model.MatchedUserId;
 @Repository
 public interface MatchedUserRepository extends JpaRepository<MatchedUser, MatchedUserId> {
 
-    @Query("SELECT m FROM MatchedUser m " +
-           "WHERE (m.user1.userId = :userId OR m.user2.userId = :userId) " +
-           "AND m.isMatched = true")
+    @Query(value = "SELECT * FROM Matched_User mu" + 
+                    "WHERE (mu.User = :userId OR mu.Liked_User = :userId) AND mu.Is_Matched = 1", nativeQuery = true)
     List<MatchedUser> findAllMatchesForUser(@Param("userId") Integer userId);
 }
+
