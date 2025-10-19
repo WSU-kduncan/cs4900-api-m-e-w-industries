@@ -8,4 +8,5 @@
 
 <p>I could not get DtoMapper classes to comply with our Rel tables, and in my troubleshooting the only way
 I could get the API to correctly map entities and classes was by including some specific Queries
-in the repository classes, and doing a lot of conversions inside the Dto classes.</p>
+in the repository classes, and doing a lot of conversions inside the Dto classes. I left the logic of
+my DtoMapper classes in tact, just commented them all out.</p>
