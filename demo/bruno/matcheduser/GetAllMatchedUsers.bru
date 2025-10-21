@@ -1,0 +1,16 @@
+meta {
+	name: GetAllMatchedUsers
+	type: http
+	seq: 1
+}
+get {
+	url: {{BASE_URL}}/matches/user/id/:id
+	body: none
+	auth: inherit
+}
+params:path {
+	id: 1
+}
+settings {
+	encodeUrl: true
+}

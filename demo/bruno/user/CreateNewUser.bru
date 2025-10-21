@@ -1,0 +1,32 @@
+meta {
+  name: CreateNewUser
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{BASE_URL}}/users
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "dob": "1995-02-14",
+    "email": "JaneDOH@gmail.com",
+    "gamertag": "DohDoh",
+    "consoleId": 3,
+    "aboutUser": "This is a test.",
+    "gameIds": [
+      1,
+      2
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
