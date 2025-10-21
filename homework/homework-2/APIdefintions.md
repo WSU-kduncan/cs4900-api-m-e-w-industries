@@ -17,7 +17,6 @@
 ### Matched_User Entity
 
 - All Matched Users (For a user)
-- Matched User by Id
 
 ## POST Methods
 
