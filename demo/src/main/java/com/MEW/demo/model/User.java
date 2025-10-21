@@ -1,21 +1,36 @@
-import javax.persistence.Entity;
-import javax.persistence.Table;
+package com.MEW.demo.model;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
 @Table(name = "User")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "User_Id")
-    private integer id;
+    private Integer id;
 
-    @Column(name = "User_Name", nullable = false)
-    private String name;
+    @Column(name = "First_Name", nullable = false)
+    private String firstName;
+
+    @Column(name = "Last_Name")
+    private String lastName;
+
+    @Column(name = "Dob", nullable = false)
+    private LocalDate dob;
 
     @Column(name = "Email", nullable = false, unique = true)
     private String email;
+
+    @Column(name = "Gamertag", nullable = false)
+    private String gamertag;
+
+    @Column(name = "About_User")
+    private String about;
 
     @ManyToOne
     @JoinColumn(name = "Preferred_Console", nullable = false)

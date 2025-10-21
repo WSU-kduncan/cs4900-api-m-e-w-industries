@@ -1,19 +1,24 @@
-import javax.persistence.Entity;
-import javax.persistence.Table;
+package com.MEW.demo.model;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import java.util.List;
 
 @Data
 @Entity
 @Table(name = "Genre")
 public class Genre {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Genre_Id")
-    private interger id;
+    private Byte id;
 
-    @Column(name = "Genre_Name", nullable = false, unique = true)
+    @Column(name = "Genre_Name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "genre", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Column(name = "Genre_Description")
+    private String description;
+
+    @OneToMany(mappedBy = "genre")
     private List<Game> games;
 }
