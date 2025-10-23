@@ -58,16 +58,16 @@ public class UserController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
-    @PutMapping(path = "/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Integer id, @RequestBody UserDto requestBody) 
+    @PutMapping(path = "/id/{userId}")
+    public ResponseEntity<UserDto> updateUser(@PathVariable Integer userId, @RequestBody UserDto requestBody) 
         throws EntityNotFoundException, IllegalArgumentException {
 
-        if (requestBody.getUserId() != null && !requestBody.getUserId().equals(id)) {
+        if (requestBody.getUserId() != null && !requestBody.getUserId().equals(userId)) {
         throw new IllegalArgumentException("UserId in body cannot be changed or differ from path ID.");
         }
 
         UserDto updateRequestBody = new UserDto(
-            id,
+            userId,
             requestBody.getFirstName(),
             requestBody.getLastName(),
             requestBody.getDob(),

@@ -16,5 +16,5 @@ public interface UserDtoMapper {
 
     UserDto toDto(User user) throws EntityNotFoundException;
 
-    void updateUser(RequestBody RequestBody, User user) throws EntityNotFoundException;
+    UserDto updateUser(RequestBody RequestBody, User user) throws EntityNotFoundException;
 }
