@@ -1,0 +1,15 @@
+meta {
+  name: Search User by Email
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{BASE_URL}}/user/search?q=gmail.com
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}
