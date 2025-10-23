@@ -19,8 +19,8 @@ import com.MEW.demo.model.User;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping( path = "/users",
-                 produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/users",
+                produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 
     //private final UserDtoMapper userDtoMapper;
