@@ -7,6 +7,7 @@ import com.MEW.demo.model.Game;
 import com.MEW.demo.model.User;
 import com.MEW.demo.repository.ConsoleRepository;
 import com.MEW.demo.repository.GameRepository;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Value;
@@ -17,6 +18,7 @@ import jakarta.validation.constraints.*;
 @Value
 public class UserDto {
     
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer userId;
 
     @NotBlank(message = "First name is required")
@@ -40,6 +42,20 @@ public class UserDto {
     private String aboutUser;
     
     private Set<Integer> gameIds;
+
+    public UserDto(Integer userId, String firstName, String lastName, LocalDate dob, 
+                    String email, String gamertag, Integer consoleId,
+                    String aboutUser, Set<Integer> gameIds) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.email = email;
+        this.gamertag = gamertag;
+        this.consoleId = consoleId;
+        this.aboutUser = aboutUser;
+        this.gameIds = gameIds;
+    }
 
     public User toEntity(ConsoleRepository consoleRepository, GameRepository gameRepository) {
 

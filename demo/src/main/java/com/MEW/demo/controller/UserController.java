@@ -14,6 +14,7 @@ import java.util.List;
 import com.MEW.demo.exception.EntityNotFoundException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.MEW.demo.model.User;
 
@@ -23,7 +24,7 @@ import com.MEW.demo.model.User;
                 produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 
-    //private final UserDtoMapper userDtoMapper;
+//    private final UserDtoMapper userDtoMapper;
     private final UserService userService;
 
     @GetMapping
@@ -52,7 +53,33 @@ public class UserController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) throws EntityNotFoundException {
+        
         UserDto createdUser = userService.createUser(userDto);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<UserDto> updateUser(@PathVariable Integer id, @RequestBody UserDto requestBody) 
+        throws EntityNotFoundException, IllegalArgumentException {
+
+        if (requestBody.getUserId() != null && !requestBody.getUserId().equals(id)) {
+        throw new IllegalArgumentException("UserId in body cannot be changed or differ from path ID.");
+        }
+
+        UserDto updateRequestBody = new UserDto(
+            id,
+            requestBody.getFirstName(),
+            requestBody.getLastName(),
+            requestBody.getDob(),
+            requestBody.getEmail(),
+            requestBody.getGamertag(),
+            requestBody.getConsoleId(),
+            requestBody.getAboutUser(),
+            requestBody.getGameIds()
+            );
+
+        UserDto updatedUser = userService.updateUser(updateRequestBody);
+        return ResponseEntity.ok(updatedUser);
+
     }
 }

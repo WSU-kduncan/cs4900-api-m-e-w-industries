@@ -13,6 +13,8 @@ import com.MEW.demo.exception.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.Set;
+import com.MEW.demo.model.Game;
 
 @RequiredArgsConstructor
 @Service
@@ -64,6 +66,33 @@ public class UserService {
 
         User user = userDto.toEntity(consoleRepository, gameRepository);
         
+        return UserDto.fromEntity(userRepository.save(user));
+    }
+
+    @Transactional
+    public UserDto updateUser(UserDto userDto) throws EntityNotFoundException, IllegalArgumentException {
+
+        if (userDto.getUserId() == null) {
+            throw new IllegalArgumentException("UserId must be provided for update.");
+        }
+             
+        User user = getUserById(userDto.getUserId());
+
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setGamertag(userDto.getGamertag());
+        user.setPreferredConsole(consoleRepository.getReferenceById(userDto.getConsoleId()));
+        user.setAboutUser(userDto.getAboutUser());
+            
+        Set<Integer> gameIds = userDto.getGameIds();
+        Set<Game> games = gameIds.stream()
+                .map(gameId -> gameRepository.findById(gameId)
+                        .orElseThrow(() -> new IllegalArgumentException(
+                                "Game with ID " + gameId + " not found.")))
+                .collect(Collectors.toSet());
+            
+        user.setGames(games);
+
         return UserDto.fromEntity(userRepository.save(user));
     }
 }
