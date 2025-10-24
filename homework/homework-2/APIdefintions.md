@@ -17,7 +17,7 @@
 ### Matched_User Entity
 
 - All Matched Users (For a user)
-- Get Info on a Matched User
+- Get Info on Matched User
 
 ## POST Methods
 
@@ -30,7 +30,12 @@
 ### User Entity
 
 - Update User
-- Update Matched_User (Is_Matched field)
+
+## PATCH Methods
+
+### Matched_User Entity
+
+- Update Matched_User isMatched field
 
 ## DELETE Methods
 
