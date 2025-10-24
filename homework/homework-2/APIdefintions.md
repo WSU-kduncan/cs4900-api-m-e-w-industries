@@ -17,6 +17,7 @@
 ### Matched_User Entity
 
 - All Matched Users (For a user)
+- Get Info on a Matched User
 
 ## POST Methods
 
