@@ -26,4 +26,8 @@ public interface MatchedUserRepository extends JpaRepository<MatchedUser, Matche
         AND mu.Is_Matched = 1
         """, nativeQuery = true)
     MatchInfoDto findMatchInfo(@Param("userId") Integer userId, @Param("matchId") Integer matchId);
+
+    MatchedUser findMatch(@Param("userId") Integer userId, @Param("matchId") Integer matchId);
+
+    void updateIsMatched(Integer userId, Integer matchId, boolean isMatched);
 }

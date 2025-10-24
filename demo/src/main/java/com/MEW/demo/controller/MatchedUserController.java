@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,9 +30,7 @@ public class MatchedUserController {
     }
 
     @GetMapping("/{userId}/{matchId}")
-    public ResponseEntity<MatchInfoDto> getMatchInfo(
-            @PathVariable Integer userId,
-            @PathVariable Integer matchId) {
+    public ResponseEntity<MatchInfoDto> getMatchInfo(@PathVariable Integer userId, @PathVariable Integer matchId) {
 
         MatchInfoDto matchInfo = matchService.getMatchInfo(userId, matchId);
 
@@ -40,5 +39,12 @@ public class MatchedUserController {
         }
 
         return ResponseEntity.ok(matchInfo);
+    }
+
+    @PatchMapping("/{userId}/{matchId}")
+    public ResponseEntity<Void> updateMatchStatus(@PathVariable Integer userId, @PathVariable Integer matchId) {
+        
+        matchService.updateMatchStatus(userId, matchId);
+        return ResponseEntity.noContent().build();
     }
 }

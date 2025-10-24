@@ -1,4 +1,6 @@
 package com.MEW.demo.model;
+import java.util.Optional;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -28,4 +30,16 @@ public class MatchedUser {
 
     @Column(name = "Is_Matched", nullable = true, columnDefinition = "TINYINT(1)")
     private Boolean isMatched;
+
+    public void setUser1(Optional<User> optionalUser) throws IllegalStateException {
+        
+        User user = optionalUser.orElseThrow(() -> new IllegalStateException("User not found"));
+        this.user1 = user;
+    }
+
+    public void setUser2(Optional<User> optionalUser) throws IllegalStateException {
+        
+        User user = optionalUser.orElseThrow(() -> new IllegalStateException("User not found"));
+        this.user2 = user;
+    }
 }
