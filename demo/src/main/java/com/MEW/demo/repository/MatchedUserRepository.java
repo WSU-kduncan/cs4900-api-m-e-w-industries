@@ -31,7 +31,7 @@ public interface MatchedUserRepository extends JpaRepository<MatchedUser, Matche
     @Query(value = """
         SELECT * 
         FROM Matched_User mu
-        WHERE mu.`User` = :userId AND mu.Liked_User = :likedUserId
+        WHERE mu.`User` = :userId AND mu.Liked_User = :matchId
         """, nativeQuery = true)
     MatchedUser findMatch(@Param("userId") Integer userId, @Param("matchId") Integer matchId);
 
@@ -40,8 +40,8 @@ public interface MatchedUserRepository extends JpaRepository<MatchedUser, Matche
     @Query(value = """
         UPDATE Matched_User 
         SET Is_Matched = :isMatched 
-        WHERE (`User` = :userId AND Liked_User = :likedUserId)
-        OR (`User` = :likedUserId AND Liked_User = :userId)
+        WHERE (`User` = :userId AND Liked_User = :matchId)
+        OR (`User` = :matchId AND Liked_User = :userId)
         """, nativeQuery = true)
     void updateIsMatched(@Param("userId") Integer userId, @Param("matchId") Integer matchId, @Param("isMatched") boolean isMatched);
 }
