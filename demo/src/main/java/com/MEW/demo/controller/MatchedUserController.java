@@ -1,11 +1,13 @@
 package com.MEW.demo.controller;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.MEW.demo.dto.MatchInfoDto;
 import com.MEW.demo.dto.MatchedUserDto;
 import com.MEW.demo.exception.EntityNotFoundException;
 import com.MEW.demo.service.MatchService;
@@ -16,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping(path = "/matches", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MatchedUserController {
 
+    @Autowired
     private final MatchService matchService;
 
     @GetMapping("/user/id/{userId}")
@@ -23,5 +26,19 @@ public class MatchedUserController {
             throws EntityNotFoundException {
         List<MatchedUserDto> matches = matchService.getAllMatchesForUser(userId);
         return ResponseEntity.ok(matches);
+    }
+
+    @GetMapping("/{userId}/{matchId}")
+    public ResponseEntity<MatchInfoDto> getMatchInfo(
+            @PathVariable Integer userId,
+            @PathVariable Integer matchId) {
+
+        MatchInfoDto matchInfo = matchService.getMatchInfo(userId, matchId);
+
+        if (matchInfo == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(matchInfo);
     }
 }
