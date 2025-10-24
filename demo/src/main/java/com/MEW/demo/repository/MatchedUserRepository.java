@@ -1,13 +1,14 @@
 package com.MEW.demo.repository;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import com.MEW.demo.dto.MatchInfoDto;
 import com.MEW.demo.model.MatchedUser;
 import com.MEW.demo.model.MatchedUserId;
+import jakarta.transaction.Transactional;
 
 @Repository
 public interface MatchedUserRepository extends JpaRepository<MatchedUser, MatchedUserId> {
@@ -27,7 +28,20 @@ public interface MatchedUserRepository extends JpaRepository<MatchedUser, Matche
         """, nativeQuery = true)
     MatchInfoDto findMatchInfo(@Param("userId") Integer userId, @Param("matchId") Integer matchId);
 
+    @Query(value = """
+        SELECT * 
+        FROM Matched_User mu
+        WHERE mu.`User` = :userId AND mu.Liked_User = :likedUserId
+        """, nativeQuery = true)
     MatchedUser findMatch(@Param("userId") Integer userId, @Param("matchId") Integer matchId);
 
-    void updateIsMatched(Integer userId, Integer matchId, boolean isMatched);
+    @Modifying
+    @Transactional
+    @Query(value = """
+        UPDATE Matched_User 
+        SET Is_Matched = :isMatched 
+        WHERE (`User` = :userId AND Liked_User = :likedUserId)
+        OR (`User` = :likedUserId AND Liked_User = :userId)
+        """, nativeQuery = true)
+    void updateIsMatched(@Param("userId") Integer userId, @Param("matchId") Integer matchId, @Param("isMatched") boolean isMatched);
 }
