@@ -35,7 +35,7 @@ public interface MatchedUserRepository extends JpaRepository<MatchedUser, Matche
         """, nativeQuery = true)
     MatchedUser findMatch(@Param("userId") Integer userId, @Param("matchId") Integer matchId);
 
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
     @Query(value = """
         UPDATE Matched_User 

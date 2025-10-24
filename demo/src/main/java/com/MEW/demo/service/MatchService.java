@@ -14,6 +14,7 @@ import com.MEW.demo.model.User;
 import com.MEW.demo.repository.MatchedUserRepository;
 import com.MEW.demo.repository.UserRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -44,25 +45,26 @@ public class MatchService {
         return matchedUserRepository.findMatchInfo(userId, matchId);
     }
 
+    @Transactional
     public void updateMatchStatus(Integer userId, Integer matchId) {
     
-    // Check if a reciprocal like exists
-    Optional<MatchedUser> reciprocal = Optional.ofNullable(matchedUserRepository.findMatch(matchId, userId));
+        // Check if a reciprocal like exists
+        Optional<MatchedUser> reciprocal = Optional.ofNullable(matchedUserRepository.findMatch(matchId, userId));
 
-    if (reciprocal.isPresent()) {
-        matchedUserRepository.updateIsMatched(userId, matchId, true);
-        matchedUserRepository.updateIsMatched(matchId, userId, true);
-    } else {
+        if (reciprocal.isPresent()) {
+            matchedUserRepository.updateIsMatched(userId, matchId, true);
+            matchedUserRepository.updateIsMatched(matchId, userId, true);
+        } else {
 
-        MatchedUser newLike = new MatchedUser();
-        Optional<User> user1 = userRepository.findById(userId);
-        Optional<User> user2 = userRepository.findById(userId);
-        
-        newLike.setId(new MatchedUserId(userId, matchId));
-        newLike.setUser1(user1);
-        newLike.setUser2(user2);
-        newLike.setIsMatched(false);
-        matchedUserRepository.save(newLike);
+            MatchedUser newLike = new MatchedUser();
+            Optional<User> user1 = userRepository.findById(userId);
+            Optional<User> user2 = userRepository.findById(matchId);
+
+            newLike.setId(new MatchedUserId(userId, matchId));
+            newLike.setUser1(user1);
+            newLike.setUser2(user2);
+            newLike.setIsMatched(false);
+            matchedUserRepository.save(newLike);
+        }
     }
-}
 }
