@@ -13,7 +13,7 @@ import com.MEW.demo.repository.GameRepository;
 import com.MEW.demo.repository.GenreRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-
+import com.MEW.demo.repository.UserRepository;
 
 @RequiredArgsConstructor
 @Service
