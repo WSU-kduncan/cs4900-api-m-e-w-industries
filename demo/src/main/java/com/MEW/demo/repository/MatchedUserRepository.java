@@ -14,15 +14,15 @@ import jakarta.transaction.Transactional;
 public interface MatchedUserRepository extends JpaRepository<MatchedUser, MatchedUserId> {
 
     @Query(value = "SELECT * FROM Matched_User mu " + 
-                    "WHERE (mu.`User` = :userId OR mu.Liked_User = :userId) AND mu.Is_Matched = 1", nativeQuery = true)
+                    "WHERE (mu.User_Id = :userId OR mu.Liked_User_Id = :userId) AND mu.Is_Matched = 1", nativeQuery = true)
     List<MatchedUser> findAllMatchesForUser(@Param("userId") Integer userId);
 
     @Query(value = """
         SELECT u.First_Name AS firstName, u.Gamertag AS gamertag, u.About_User AS aboutUser
-        FROM User u
+        FROM `User` u
         INNER JOIN Matched_User mu
-            ON u.User_Id = mu.Liked_User
-        WHERE mu.`User` = :userId
+            ON u.User_Id = mu.Liked_User_Id
+        WHERE mu.User_Id = :userId
         AND u.User_Id = :matchId
         AND mu.Is_Matched = 1
         """, nativeQuery = true)
@@ -31,7 +31,7 @@ public interface MatchedUserRepository extends JpaRepository<MatchedUser, Matche
     @Query(value = """
         SELECT * 
         FROM Matched_User mu
-        WHERE mu.`User` = :userId AND mu.Liked_User = :matchId
+        WHERE mu.User_Id = :userId AND mu.Liked_User_Id = :matchId
         """, nativeQuery = true)
     MatchedUser findMatch(@Param("userId") Integer userId, @Param("matchId") Integer matchId);
 
@@ -40,12 +40,13 @@ public interface MatchedUserRepository extends JpaRepository<MatchedUser, Matche
     @Query(value = """
         UPDATE Matched_User 
         SET Is_Matched = :isMatched 
-        WHERE (`User` = :userId AND Liked_User = :matchId)
-        OR (`User` = :matchId AND Liked_User = :userId)
+        WHERE (User_Id = :userId AND Liked_User_Id = :matchId)
+        OR (User_Id = :matchId AND Liked_User_Id = :userId)
         """, nativeQuery = true)
     void updateIsMatched(@Param("userId") Integer userId, @Param("matchId") Integer matchId, @Param("isMatched") boolean isMatched);
 
     @Modifying
-    @Query("DELETE FROM MatchedUser mu WHERE mu.`User`.userId = :userId1 OR mu.Liked_User_Id.userId = :userId2")
-    void deleteByUser1OrUser2(@Param("userId1") Integer userId1, @Param("userId2") Integer userId2);
+    @Transactional
+    @Query("DELETE FROM MatchedUser mu WHERE mu.user1.userId = :userId OR mu.user2.userId = :userId")
+    void deleteByUserId(@Param("userId") Integer userId);
 }

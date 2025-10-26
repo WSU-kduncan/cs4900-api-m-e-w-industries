@@ -101,14 +101,15 @@ public class UserService {
         return UserDto.fromEntity(userRepository.save(user));
     }
 
-   @Transactional
-public void deleteUser(Integer userId) throws EntityNotFoundException {
-    if (!userRepository.existsById(userId)) {
-        throw new EntityNotFoundException("User with ID " + userId + " not found");
-    }
+    @Transactional
+    public void deleteUser(Integer userId) throws EntityNotFoundException {
+        
+        if (!userRepository.existsById(userId)) {
+            throw new EntityNotFoundException("User with ID " + userId + " not found");
+        }
 
-    userGamesRepository.deleteByUserId(userId);
-    matchedUserRepository.deleteByUser1OrUser2(userId, userId);
-    userRepository.deleteById(userId);
+        matchedUserRepository.deleteByUserId(userId);
+        userGamesRepository.deleteByUserId(userId);
+        userRepository.deleteById(userId);
     }    
 }
