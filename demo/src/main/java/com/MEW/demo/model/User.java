@@ -2,9 +2,8 @@ package com.MEW.demo.model;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Optional;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,8 +12,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+//import jakarta.persistence.JoinTable;
+//import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -66,16 +65,16 @@ public class User {
     @Column(name = "About_User", nullable = true, length = 500)
     private String aboutUser;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-        name = "UserGames",
-        joinColumns = @JoinColumn(name = "User"),
-        inverseJoinColumns = @JoinColumn(name = "Game")
-    )
-    @Builder.Default
-    @ToString.Exclude
-    @JsonIgnoreProperties({"users"})
-    private Set<Game> games = new HashSet<>();
+    // @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    // @JoinTable(
+    //     name = "UserGames",
+    //     joinColumns = @JoinColumn(name = "User"),
+    //     inverseJoinColumns = @JoinColumn(name = "Game")
+    // )
+    // @Builder.Default
+    // @ToString.Exclude
+    // @JsonIgnoreProperties({"users"})
+    // private Set<Game> games = new HashSet<>();
 
     @Builder.Default
     @JsonIgnore
