@@ -102,7 +102,6 @@ public class UserService {
         if (!userRepository.existsById(userId)) {
             throw new EntityNotFoundException("User with ID " + userId + " not found");
         }
-        
         userRepository.deleteById(userId);
     }
 }

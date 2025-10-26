@@ -65,16 +65,16 @@ public class User {
     @Column(name = "About_User", nullable = true, length = 500)
     private String aboutUser;
 
-    // @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    // @JoinTable(
-    //     name = "UserGames",
-    //     joinColumns = @JoinColumn(name = "User"),
-    //     inverseJoinColumns = @JoinColumn(name = "Game")
-    // )
-    // @Builder.Default
-    // @ToString.Exclude
-    // @JsonIgnoreProperties({"users"})
-    // private Set<Game> games = new HashSet<>();
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+        name = "UserGames",
+        joinColumns = @JoinColumn(name = "User"),
+        inverseJoinColumns = @JoinColumn(name = "Game")
+    )
+    @Builder.Default
+    @ToString.Exclude
+    @JsonIgnoreProperties({"users"})
+    private Set<Game> games = new HashSet<>();
 
     @Builder.Default
     @JsonIgnore
