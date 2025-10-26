@@ -20,12 +20,12 @@ public class MatchedUser {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("userId1")
-    @JoinColumn(name = "User", nullable = false)
+    @JoinColumn(name = "User_Id", nullable = false)
     private User user1;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("userId2")
-    @JoinColumn(name = "Liked_User", nullable = false)
+    @JoinColumn(name = "Liked_User_Id", nullable = false)
     private User user2;
 
     @Column(name = "Is_Matched", nullable = true, columnDefinition = "TINYINT(1)")

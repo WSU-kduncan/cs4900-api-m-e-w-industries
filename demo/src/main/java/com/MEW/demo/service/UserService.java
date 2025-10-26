@@ -2,6 +2,8 @@ package com.MEW.demo.service;
 import com.MEW.demo.model.User;
 import com.MEW.demo.repository.ConsoleRepository;
 import com.MEW.demo.repository.GameRepository;
+import com.MEW.demo.repository.MatchedUserRepository;
+import com.MEW.demo.repository.UserGamesRepository;
 import com.MEW.demo.repository.UserRepository;
 import jakarta.persistence.EntityExistsException;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final ConsoleRepository consoleRepository;
     private final GameRepository gameRepository;
+    private final UserGamesRepository userGamesRepository;
+    private final MatchedUserRepository matchedUserRepository;
+
     //private final UserDtoMapper userDtoMapper;
 
     public List<User> convertDtosToUsers(List<UserDto> userDtos) throws EntityNotFoundException {
@@ -97,14 +102,13 @@ public class UserService {
     }
 
    @Transactional
-    public void deleteUser(Integer userId) throws EntityNotFoundException {
-        User user = userRepository.findById(userId)
-            .orElseThrow(() -> new EntityNotFoundException("User not found"));
-
-        user.getGames().forEach(game -> game.getUsers().remove(user));
-        user.getGames().clear();
-        user.getSentLikes().clear();
-        user.getReceivedLikes().clear();
-        userRepository.delete(user);
+public void deleteUser(Integer userId) throws EntityNotFoundException {
+    if (!userRepository.existsById(userId)) {
+        throw new EntityNotFoundException("User with ID " + userId + " not found");
     }
+
+    userGamesRepository.deleteByUserId(userId);
+    matchedUserRepository.deleteByUser1OrUser2(userId, userId);
+    userRepository.deleteById(userId);
+    }    
 }

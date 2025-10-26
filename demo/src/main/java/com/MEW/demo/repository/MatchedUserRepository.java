@@ -44,4 +44,8 @@ public interface MatchedUserRepository extends JpaRepository<MatchedUser, Matche
         OR (`User` = :matchId AND Liked_User = :userId)
         """, nativeQuery = true)
     void updateIsMatched(@Param("userId") Integer userId, @Param("matchId") Integer matchId, @Param("isMatched") boolean isMatched);
+
+    @Modifying
+    @Query("DELETE FROM MatchedUser mu WHERE mu.`User`.userId = :userId1 OR mu.Liked_User_Id.userId = :userId2")
+    void deleteByUser1OrUser2(@Param("userId1") Integer userId1, @Param("userId2") Integer userId2);
 }

@@ -16,11 +16,11 @@ public class UserGames {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
-    @JoinColumn(name = "User")
+    @JoinColumn(name = "User_Id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("gameId")
-    @JoinColumn(name = "Game")
+    @JoinColumn(name = "Game_Id")
     private Game game;
 }

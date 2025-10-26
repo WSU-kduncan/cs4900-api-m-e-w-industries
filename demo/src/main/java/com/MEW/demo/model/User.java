@@ -65,11 +65,11 @@ public class User {
     @Column(name = "About_User", nullable = true, length = 500)
     private String aboutUser;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany
     @JoinTable(
         name = "UserGames",
-        joinColumns = @JoinColumn(name = "User"),
-        inverseJoinColumns = @JoinColumn(name = "Game")
+        joinColumns = @JoinColumn(name = "User_Id"),
+        inverseJoinColumns = @JoinColumn(name = "Game_Id")
     )
     @Builder.Default
     @ToString.Exclude
