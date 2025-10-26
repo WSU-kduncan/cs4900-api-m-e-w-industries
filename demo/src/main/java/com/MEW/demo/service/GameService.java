@@ -7,13 +7,10 @@ import com.MEW.demo.exception.EntityNotFoundException;
 //import com.MEW.demo.mapper.GameDtoMapper;
 import com.MEW.demo.model.Game;
 import com.MEW.demo.model.Genre;
-import com.MEW.demo.model.User;
-import com.MEW.demo.model.UserGames;
 import com.MEW.demo.repository.GameRepository;
 import com.MEW.demo.repository.GenreRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import com.MEW.demo.repository.UserRepository;
 
 @RequiredArgsConstructor
 @Service
@@ -21,7 +18,6 @@ public class GameService {
     
     private final GameRepository gameRepository;
     private final GenreRepository genreRepository;
-    private final UserRepository userRepository;
     //private final GameDtoMapper gameDtoMapper;
 
     public List<Game> convertDtosToGames(List<GameDto> gameDtos) throws EntityNotFoundException {
@@ -70,21 +66,5 @@ public class GameService {
         Game savedGame = gameRepository.save(game);
         
         return GameDto.fromEntity(savedGame);
-    }
-
-    @Transactional
-    public void addGameToUser(Integer userId, Integer gameId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
-
-        Game game = gameRepository.findById(gameId)
-                .orElseThrow(() -> new EntityNotFoundException("Game not found"));
-
-        UserGames ug = new UserGames();
-        ug.setUser(user);
-        ug.setGame(game);
-
-        user.getUserGames().add(ug);
-        userGamesRepository.save(ug);
     }
 }
