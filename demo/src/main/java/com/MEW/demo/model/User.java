@@ -1,6 +1,9 @@
 package com.MEW.demo.model;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Optional;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -13,6 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +25,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -70,11 +75,38 @@ public class User {
     @Builder.Default
     @ToString.Exclude
     @JsonIgnoreProperties({"users"})
-    private java.util.Set<Game> games = new java.util.HashSet<>();
+    private Set<Game> games = new HashSet<>();
+
+    @Builder.Default
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserGames> userGames = new HashSet<>();
+
+    @Builder.Default
+    @JsonIgnore
+    @OneToMany(mappedBy = "user1", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MatchedUser> sentLikes = new HashSet<>();
+
+    @Builder.Default
+    @JsonIgnore 
+    @OneToMany(mappedBy = "user2", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MatchedUser> receivedLikes = new HashSet<>();
 
     public static User fromOptional(Optional<User> optionalUser, String identifier) {
         
         return optionalUser.orElseThrow(() -> new IllegalArgumentException(
             "User with identifier " + identifier + " not found."));
+    }
+
+    public void addSentLike(MatchedUser match) {
+        
+        sentLikes.add(match);
+        match.setUser1(Optional.of(this));
+    }
+
+    public void addReceivedLike(MatchedUser match) {
+        
+        receivedLikes.add(match);
+        match.setUser2(Optional.of(this));
     }
 }

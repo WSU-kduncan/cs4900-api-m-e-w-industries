@@ -1,6 +1,6 @@
 package com.MEW.demo.model;
 import java.util.Optional;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -18,12 +18,12 @@ public class MatchedUser {
     @EmbeddedId
     private MatchedUserId id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("userId1")
     @JoinColumn(name = "User", nullable = false)
     private User user1;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("userId2")
     @JoinColumn(name = "Liked_User", nullable = false)
     private User user2;

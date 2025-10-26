@@ -1,6 +1,7 @@
 package com.MEW.demo.controller;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
@@ -81,5 +82,12 @@ public class UserController {
         UserDto updatedUser = userService.updateUser(updateRequestBody);
         return ResponseEntity.ok(updatedUser);
 
+    }
+
+    @DeleteMapping(path = "/id/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Integer userId) throws EntityNotFoundException {
+        
+        userService.deleteUser(userId);
+        return ResponseEntity.noContent().build();
     }
 }

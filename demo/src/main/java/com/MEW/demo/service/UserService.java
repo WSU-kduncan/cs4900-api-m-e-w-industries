@@ -95,4 +95,14 @@ public class UserService {
 
         return UserDto.fromEntity(userRepository.save(user));
     }
+
+    @Transactional
+    public void deleteUser(Integer userId) throws EntityNotFoundException{
+        
+        if (!userRepository.existsById(userId)) {
+            throw new EntityNotFoundException("User with ID " + userId + " not found");
+        }
+        
+        userRepository.deleteById(userId);
+    }
 }
