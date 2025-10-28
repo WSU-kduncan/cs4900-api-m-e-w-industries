@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.MEW.demo.model.User;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RequiredArgsConstructor
 @RestController
@@ -54,5 +56,11 @@ public class UserController {
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) throws EntityNotFoundException {
         UserDto createdUser = userService.createUser(userDto);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) throws EntityNotFoundException {
+        UserDto updatedUser = userService.updateUser(id, userDto);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 }
