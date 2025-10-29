@@ -1,0 +1,15 @@
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: MEW_GM_DB
+    restart: always
+    volumes:
+      - ./init_MEW_GM_DB.sql:/docker-entrypoint-initdb.d/init.sql
+      # - ./data:/var/lib/mysql                   # Mount a volume for data persistence (optional)
+    environment:
+      - MYSQL_ROOT_PASSWORD=toor
+      - MYSQL_DATABASE=MEW_GM_DB
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    ports:
+      - 3308:3306

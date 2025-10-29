@@ -1,0 +1,35 @@
+meta {
+  name: UpdateUser
+  type: http
+  seq: 5
+}
+
+put  {
+  url: {{BASE_URL}}/users/id/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+    id:1
+}
+
+body:json {
+  {
+    "firstName": "NewName",
+    "lastName": "MakeYourMindUp",
+    "gamertag": "ind3cisiv3",
+    "consoleId": 1,
+    "aboutUser": "let's go, we don't have all day",
+    "gameIds": [
+      1,
+      2, 
+      17
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

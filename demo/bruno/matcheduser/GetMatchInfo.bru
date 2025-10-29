@@ -1,17 +1,18 @@
 meta {
-	name: GetAllMatchedUsers
+	name: GetMatchInfo
 	type: http
-	seq: 1
+	seq: 2
 }
 
 get {
-	url: {{BASE_URL}}/matches/user/id/:id
+	url: {{BASE_URL}}/matches/:userId/:matchId
 	body: none
 	auth: inherit
 }
 
 params:path {
-	id: 1
+    userId: 1
+    matchId:6
 }
 
 settings {
