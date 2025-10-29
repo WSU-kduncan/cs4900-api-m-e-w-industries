@@ -12,7 +12,7 @@ import com.mew.demo.model.MatchedUserId;
 import com.mew.demo.model.User;
 import com.mew.demo.repository.MatchedUserRepository;
 import com.mew.demo.repository.UserRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -47,13 +47,38 @@ public class MatchService {
     public void updateMatchStatus(Integer userId, Integer matchId) {
     
         // Check if a reciprocal like exists
-        Optional<MatchedUser> reciprocal = Optional.ofNullable(matchedUserRepository.findMatch(matchId, userId));
+        MatchedUser reciprocal = matchedUserRepository.findMatch(matchId, userId);
 
-        if (reciprocal.isPresent()) {
-            matchedUserRepository.updateIsMatched(userId, matchId, true);
-            matchedUserRepository.updateIsMatched(matchId, userId, true);
+        if (reciprocal != null) {
+            
+            // Check whether this direction already exists (userId -> matchId)
+            MatchedUser existing = matchedUserRepository.findMatch(userId, matchId);
+
+            if (existing == null) {
+
+                // create new row for userId -> matchId and mark it matched
+                MatchedUser newLike = new MatchedUser();
+                Optional<User> user1 = userRepository.findById(userId);
+                Optional<User> user2 = userRepository.findById(matchId);
+
+                newLike.setId(new MatchedUserId(userId, matchId));
+                newLike.setUser1(user1);
+                newLike.setUser2(user2);
+                newLike.setIsMatched(true);
+
+                matchedUserRepository.save(newLike);
+
+                // ensure reciprocal row is marked matched as well (reciprocal exists but might be false)
+                matchedUserRepository.updateIsMatched(matchId, userId, true);
+            
+            } else {
+                
+                matchedUserRepository.updateIsMatched(userId, matchId, true);
+                matchedUserRepository.updateIsMatched(matchId, userId, true);
+            }
         } else {
-
+            
+            // No reciprocal; create a new like with isMatched = false
             MatchedUser newLike = new MatchedUser();
             Optional<User> user1 = userRepository.findById(userId);
             Optional<User> user2 = userRepository.findById(matchId);

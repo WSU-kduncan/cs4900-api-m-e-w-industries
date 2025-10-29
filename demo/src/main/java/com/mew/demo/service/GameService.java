@@ -8,7 +8,7 @@ import com.mew.demo.model.Game;
 import com.mew.demo.model.Genre;
 import com.mew.demo.repository.GameRepository;
 import com.mew.demo.repository.GenreRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
