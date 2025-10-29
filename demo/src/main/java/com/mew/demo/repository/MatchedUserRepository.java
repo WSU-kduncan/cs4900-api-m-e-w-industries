@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.mew.demo.dto.MatchInfoDto;
 import com.mew.demo.model.MatchedUser;
 import com.mew.demo.model.MatchedUserId;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface MatchedUserRepository extends JpaRepository<MatchedUser, MatchedUserId> {

@@ -12,7 +12,7 @@ import com.mew.demo.model.MatchedUserId;
 import com.mew.demo.model.User;
 import com.mew.demo.repository.MatchedUserRepository;
 import com.mew.demo.repository.UserRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service

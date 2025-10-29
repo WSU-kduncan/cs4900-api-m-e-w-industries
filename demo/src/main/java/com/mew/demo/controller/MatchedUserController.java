@@ -8,12 +8,10 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.mew.demo.dto.MatchInfoDto;
 import com.mew.demo.dto.MatchedUserDto;
 import com.mew.demo.exception.EntityNotFoundException;
 import com.mew.demo.service.MatchService;
-
 import lombok.RequiredArgsConstructor;
 
 @RestController

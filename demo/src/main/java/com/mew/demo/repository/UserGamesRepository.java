@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.mew.demo.model.UserGames;
 import com.mew.demo.model.UserGamesId;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface UserGamesRepository extends JpaRepository<UserGames, UserGamesId> {
