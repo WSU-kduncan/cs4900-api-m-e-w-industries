@@ -1,4 +1,4 @@
-package com.MEW.demo.exception;
+package com.mew.demo.exception;
 import java.lang.Exception;
 
 public class EntityNotFoundException extends Exception {

@@ -65,7 +65,6 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(ex, HttpStatus.BAD_REQUEST, "Bad Request", request);
     }
 
-    // Optional catch-all for unexpected errors
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleAllOtherExceptions(
             Exception ex, HttpServletRequest request) {
