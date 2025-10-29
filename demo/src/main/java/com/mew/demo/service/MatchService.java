@@ -1,9 +1,5 @@
 package com.mew.demo.service;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 import com.mew.demo.dto.MatchInfoDto;
 import com.mew.demo.dto.MatchedUserDto;
 import com.mew.demo.exception.EntityNotFoundException;
@@ -12,82 +8,85 @@ import com.mew.demo.model.MatchedUserId;
 import com.mew.demo.model.User;
 import com.mew.demo.repository.MatchedUserRepository;
 import com.mew.demo.repository.UserRepository;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class MatchService {
 
-    @Autowired
-    private final MatchedUserRepository matchedUserRepository;
-    
-    @Autowired
-    private final UserRepository userRepository;
+  @Autowired
+  private final MatchedUserRepository matchedUserRepository;
 
-    public List<MatchedUserDto> getAllMatchesForUser(Integer userId) throws EntityNotFoundException {
-        
-        List<MatchedUser> matches = matchedUserRepository.findAllMatchesForUser(userId);
+  @Autowired
+  private final UserRepository userRepository;
 
-        if (matches.isEmpty()) {
-            throw new EntityNotFoundException("No matches found for user ID: " + userId);
-        }
+  public List<MatchedUserDto> getAllMatchesForUser(Integer userId) throws EntityNotFoundException {
 
-        return matches.stream()
-                .map(MatchedUserDto::fromEntity)
-                .collect(Collectors.toList());
+    List<MatchedUser> matches = matchedUserRepository.findAllMatchesForUser(userId);
+
+    if (matches.isEmpty()) {
+      throw new EntityNotFoundException("No matches found for user ID: " + userId);
     }
 
-    public MatchInfoDto getMatchInfo(Integer userId, Integer matchId) {
-        
-        return matchedUserRepository.findMatchInfo(userId, matchId);
+    return matches.stream().map(MatchedUserDto::fromEntity).collect(Collectors.toList());
+  }
+
+  public MatchInfoDto getMatchInfo(Integer userId, Integer matchId) {
+
+    return matchedUserRepository.findMatchInfo(userId, matchId);
+  }
+
+  @Transactional
+  public void updateMatchStatus(Integer userId, Integer matchId) {
+
+    // Check if a reciprocal like exists
+    MatchedUser reciprocal = matchedUserRepository.findMatch(matchId, userId);
+
+    if (reciprocal != null) {
+
+      // Check whether this direction already exists (userId -> matchId)
+      MatchedUser existing = matchedUserRepository.findMatch(userId, matchId);
+
+      if (existing == null) {
+
+        // create new row for userId -> matchId and mark it matched
+        MatchedUser newLike = new MatchedUser();
+        Optional<User> user1 = userRepository.findById(userId);
+        Optional<User> user2 = userRepository.findById(matchId);
+
+        newLike.setId(new MatchedUserId(userId, matchId));
+        newLike.setUser1(user1);
+        newLike.setUser2(user2);
+        newLike.setIsMatched(true);
+
+        matchedUserRepository.save(newLike);
+
+        // ensure reciprocal row is marked matched as well (reciprocal exists but might be false)
+        matchedUserRepository.updateIsMatched(matchId, userId, true);
+
+      } else {
+
+        matchedUserRepository.updateIsMatched(userId, matchId, true);
+        matchedUserRepository.updateIsMatched(matchId, userId, true);
+      }
+    } else {
+
+      // No reciprocal; create a new like with isMatched = false
+      MatchedUser newLike = new MatchedUser();
+      Optional<User> user1 = userRepository.findById(userId);
+      Optional<User> user2 = userRepository.findById(matchId);
+
+      newLike.setId(new MatchedUserId(userId, matchId));
+      newLike.setUser1(user1);
+      newLike.setUser2(user2);
+      newLike.setIsMatched(false);
+      matchedUserRepository.save(newLike);
     }
-
-    @Transactional
-    public void updateMatchStatus(Integer userId, Integer matchId) {
-    
-        // Check if a reciprocal like exists
-        MatchedUser reciprocal = matchedUserRepository.findMatch(matchId, userId);
-
-        if (reciprocal != null) {
-            
-            // Check whether this direction already exists (userId -> matchId)
-            MatchedUser existing = matchedUserRepository.findMatch(userId, matchId);
-
-            if (existing == null) {
-
-                // create new row for userId -> matchId and mark it matched
-                MatchedUser newLike = new MatchedUser();
-                Optional<User> user1 = userRepository.findById(userId);
-                Optional<User> user2 = userRepository.findById(matchId);
-
-                newLike.setId(new MatchedUserId(userId, matchId));
-                newLike.setUser1(user1);
-                newLike.setUser2(user2);
-                newLike.setIsMatched(true);
-
-                matchedUserRepository.save(newLike);
-
-                // ensure reciprocal row is marked matched as well (reciprocal exists but might be false)
-                matchedUserRepository.updateIsMatched(matchId, userId, true);
-            
-            } else {
-                
-                matchedUserRepository.updateIsMatched(userId, matchId, true);
-                matchedUserRepository.updateIsMatched(matchId, userId, true);
-            }
-        } else {
-            
-            // No reciprocal; create a new like with isMatched = false
-            MatchedUser newLike = new MatchedUser();
-            Optional<User> user1 = userRepository.findById(userId);
-            Optional<User> user2 = userRepository.findById(matchId);
-
-            newLike.setId(new MatchedUserId(userId, matchId));
-            newLike.setUser1(user1);
-            newLike.setUser2(user2);
-            newLike.setIsMatched(false);
-            matchedUserRepository.save(newLike);
-        }
-    }
+  }
 }
