@@ -1,4 +1,5 @@
 package com.mew.demo.model;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,16 +22,16 @@ import lombok.Setter;
 @Table(name = "Genre")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Genre {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
-    @Column(name = "Genre_Id", nullable = false)
-    private int genreId;
 
-    @Column(name = "Genre_Name", nullable = false, length = 30)
-    private String genreName;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @EqualsAndHashCode.Include
+  @Column(name = "Genre_Id", nullable = false)
+  private int genreId;
 
-    @Column(name = "Genre_Description", nullable = true, length = 254)
-    private String genreDescription;
+  @Column(name = "Genre_Name", nullable = false, length = 30)
+  private String genreName;
+
+  @Column(name = "Genre_Description", nullable = true, length = 254)
+  private String genreDescription;
 }

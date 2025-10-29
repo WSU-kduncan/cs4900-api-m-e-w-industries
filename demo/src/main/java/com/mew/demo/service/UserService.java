@@ -1,6 +1,5 @@
 package com.mew.demo.service;
-import jakarta.persistence.EntityExistsException;
-import org.springframework.transaction.annotation.Transactional;
+
 import com.mew.demo.dto.UserDto;
 import com.mew.demo.exception.EntityNotFoundException;
 import com.mew.demo.model.Game;
@@ -10,106 +9,109 @@ import com.mew.demo.repository.GameRepository;
 import com.mew.demo.repository.MatchedUserRepository;
 import com.mew.demo.repository.UserGamesRepository;
 import com.mew.demo.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-//import com.MEW.demo.mapper.UserDtoMapper;
+import jakarta.persistence.EntityExistsException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.Set;
+import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
-    
-    private final UserRepository userRepository;
-    private final ConsoleRepository consoleRepository;
-    private final GameRepository gameRepository;
-    private final UserGamesRepository userGamesRepository;
-    private final MatchedUserRepository matchedUserRepository;
 
-    //private final UserDtoMapper userDtoMapper;
+  private final UserRepository userRepository;
+  private final ConsoleRepository consoleRepository;
+  private final GameRepository gameRepository;
+  private final UserGamesRepository userGamesRepository;
+  private final MatchedUserRepository matchedUserRepository;
 
-    public List<User> convertDtosToUsers(List<UserDto> userDtos) throws EntityNotFoundException {
-        
-        return userDtos.stream()
-            .map(dto -> dto.toEntity(consoleRepository, gameRepository))
-            .toList();
+  // private final UserDtoMapper userDtoMapper;
+
+  public List<User> convertDtosToUsers(List<UserDto> userDtos) throws EntityNotFoundException {
+
+    return userDtos.stream()
+        .map(dto -> dto.toEntity(consoleRepository, gameRepository))
+        .toList();
+  }
+
+  @Transactional(readOnly = true)
+  public List<User> getAllUsers() throws EntityNotFoundException {
+
+    return userRepository.findAllWithGamesAndConsole().stream().collect(Collectors.toList());
+  }
+
+  @Transactional(readOnly = true)
+  public User getUserById(Integer userId) throws EntityNotFoundException {
+
+    Optional<User> optionalUser = userRepository.findById(userId);
+    return User.fromOptional(optionalUser, "ID=" + userId);
+  }
+
+  @Transactional(readOnly = true)
+  public User getUserByFirstName(String firstName) throws EntityNotFoundException {
+
+    Optional<User> optionalUser = userRepository.findByFirstName(firstName);
+    return User.fromOptional(optionalUser, "firstName=" + firstName);
+  }
+
+  @Transactional
+  public UserDto createUser(UserDto userDto) throws EntityNotFoundException {
+
+    if (userRepository.existsByEmail(userDto.getEmail())) {
+      throw new EntityExistsException(
+          "A user already exists with this email: " + userDto.getEmail());
+    }
+    if (userRepository.existsByGamertag(userDto.getGamertag())) {
+      throw new EntityExistsException(
+          "A user already exists with this gamertag: " + userDto.getGamertag());
     }
 
-    @Transactional(readOnly = true)
-    public List<User> getAllUsers() throws EntityNotFoundException {
+    User user = userDto.toEntity(consoleRepository, gameRepository);
 
-        return userRepository.findAllWithGamesAndConsole()
-            .stream()
-            .collect(Collectors.toList());
-    }
-    
-    @Transactional(readOnly = true)
-    public User getUserById(Integer userId) throws EntityNotFoundException {
-        
-        Optional<User> optionalUser = userRepository.findById(userId);
-        return User.fromOptional(optionalUser, "ID=" + userId);
+    return UserDto.fromEntity(userRepository.save(user));
+  }
+
+  @Transactional
+  public UserDto updateUser(UserDto userDto)
+      throws EntityNotFoundException, IllegalArgumentException {
+
+    if (userDto.getUserId() == null) {
+      throw new IllegalArgumentException("UserId must be provided for update.");
     }
 
-    @Transactional(readOnly = true)
-    public User getUserByFirstName(String firstName) throws EntityNotFoundException {
-        
-        Optional<User> optionalUser = userRepository.findByFirstName(firstName);
-        return User.fromOptional(optionalUser, "firstName=" + firstName);
+    User user = getUserById(userDto.getUserId());
+
+    user.setFirstName(userDto.getFirstName());
+    user.setLastName(userDto.getLastName());
+    user.setGamertag(userDto.getGamertag());
+    user.setPreferredConsole(consoleRepository.getReferenceById(userDto.getConsoleId()));
+    user.setAboutUser(userDto.getAboutUser());
+
+    Set<Integer> gameIds = userDto.getGameIds();
+    Set<Game> games = gameIds.stream()
+        .map(gameId -> gameRepository
+            .findById(gameId)
+            .orElseThrow(
+                () -> new IllegalArgumentException("Game with ID " + gameId + " not found.")))
+        .collect(Collectors.toSet());
+
+    user.setGames(games);
+
+    return UserDto.fromEntity(userRepository.save(user));
+  }
+
+  @Transactional
+  public void deleteUser(Integer userId) throws EntityNotFoundException {
+
+    if (!userRepository.existsById(userId)) {
+      throw new EntityNotFoundException("User with ID " + userId + " not found");
     }
 
-    @Transactional
-    public UserDto createUser(UserDto userDto) throws EntityNotFoundException {
-        
-        if (userRepository.existsByEmail(userDto.getEmail())) {
-            throw new EntityExistsException("A user already exists with this email: " + userDto.getEmail());
-        }
-        if (userRepository.existsByGamertag(userDto.getGamertag())) {
-            throw new EntityExistsException("A user already exists with this gamertag: " + userDto.getGamertag());
-        }
-
-        User user = userDto.toEntity(consoleRepository, gameRepository);
-        
-        return UserDto.fromEntity(userRepository.save(user));
-    }
-
-    @Transactional
-    public UserDto updateUser(UserDto userDto) throws EntityNotFoundException, IllegalArgumentException {
-
-        if (userDto.getUserId() == null) {
-            throw new IllegalArgumentException("UserId must be provided for update.");
-        }
-             
-        User user = getUserById(userDto.getUserId());
-
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setGamertag(userDto.getGamertag());
-        user.setPreferredConsole(consoleRepository.getReferenceById(userDto.getConsoleId()));
-        user.setAboutUser(userDto.getAboutUser());
-            
-        Set<Integer> gameIds = userDto.getGameIds();
-        Set<Game> games = gameIds.stream()
-                .map(gameId -> gameRepository.findById(gameId)
-                        .orElseThrow(() -> new IllegalArgumentException(
-                                "Game with ID " + gameId + " not found.")))
-                .collect(Collectors.toSet());
-            
-        user.setGames(games);
-
-        return UserDto.fromEntity(userRepository.save(user));
-    }
-
-    @Transactional
-    public void deleteUser(Integer userId) throws EntityNotFoundException {
-        
-        if (!userRepository.existsById(userId)) {
-            throw new EntityNotFoundException("User with ID " + userId + " not found");
-        }
-
-        matchedUserRepository.deleteByUserId(userId);
-        userGamesRepository.deleteByUserId(userId);
-        userRepository.deleteById(userId);
-    }    
+    matchedUserRepository.deleteByUserId(userId);
+    userGamesRepository.deleteByUserId(userId);
+    userRepository.deleteById(userId);
+  }
 }

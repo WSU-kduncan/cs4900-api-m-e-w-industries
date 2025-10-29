@@ -1,7 +1,5 @@
 package com.mew.demo.model;
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Optional;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
@@ -17,6 +15,10 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -24,7 +26,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -35,72 +36,71 @@ import java.util.Set;
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
-	
-    @EqualsAndHashCode.Include
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "User_Id", nullable = false)
-    private int userId;
 
-    @Column(name = "First_Name", nullable = false, length = 15)
-    private String firstName;
+  @EqualsAndHashCode.Include
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "User_Id", nullable = false)
+  private int userId;
 
-    @Column(name = "Last_Name", nullable = true, length = 20)
-    private String lastName;
+  @Column(name = "First_Name", nullable = false, length = 15)
+  private String firstName;
 
-    @Column(name = "Dob", nullable = false)
-    private LocalDate dob;
+  @Column(name = "Last_Name", nullable = true, length = 20)
+  private String lastName;
 
-    @Column(name = "Email", nullable = false, length = 50)
-    private String email;
+  @Column(name = "Dob", nullable = false)
+  private LocalDate dob;
 
-    @Column(name = "Gamertag", nullable = false, length = 25)
-    private String gamertag;
+  @Column(name = "Email", nullable = false, length = 50)
+  private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Preferred_Console", referencedColumnName = "Console_Id", nullable = false)
-    @ToString.Exclude
-    private Console preferredConsole;
+  @Column(name = "Gamertag", nullable = false, length = 25)
+  private String gamertag;
 
-    @Column(name = "About_User", nullable = true, length = 500)
-    private String aboutUser;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "Preferred_Console", referencedColumnName = "Console_Id", nullable = false)
+  @ToString.Exclude
+  private Console preferredConsole;
 
-    @ManyToMany
-    @JoinTable(
-        name = "UserGames",
-        joinColumns = @JoinColumn(name = "User_Id"),
-        inverseJoinColumns = @JoinColumn(name = "Game_Id")
-    )
-    @Builder.Default
-    @ToString.Exclude
-    @JsonIgnoreProperties({"users"})
-    private Set<Game> games = new HashSet<>();
+  @Column(name = "About_User", nullable = true, length = 500)
+  private String aboutUser;
 
-    @Builder.Default
-    @JsonIgnore
-    @OneToMany(mappedBy = "user1", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<MatchedUser> sentLikes = new HashSet<>();
+  @ManyToMany
+  @JoinTable(
+      name = "UserGames",
+      joinColumns = @JoinColumn(name = "User_Id"),
+      inverseJoinColumns = @JoinColumn(name = "Game_Id"))
+  @Builder.Default
+  @ToString.Exclude
+  @JsonIgnoreProperties({"users"})
+  private Set<Game> games = new HashSet<>();
 
-    @Builder.Default
-    @JsonIgnore 
-    @OneToMany(mappedBy = "user2", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<MatchedUser> receivedLikes = new HashSet<>();
+  @Builder.Default
+  @JsonIgnore
+  @OneToMany(mappedBy = "user1", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<MatchedUser> sentLikes = new HashSet<>();
 
-    public static User fromOptional(Optional<User> optionalUser, String identifier) {
-        
-        return optionalUser.orElseThrow(() -> new IllegalArgumentException(
-            "User with identifier " + identifier + " not found."));
-    }
+  @Builder.Default
+  @JsonIgnore
+  @OneToMany(mappedBy = "user2", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<MatchedUser> receivedLikes = new HashSet<>();
 
-    public void addSentLike(MatchedUser match) {
-        
-        sentLikes.add(match);
-        match.setUser1(Optional.of(this));
-    }
+  public static User fromOptional(Optional<User> optionalUser, String identifier) {
 
-    public void addReceivedLike(MatchedUser match) {
-        
-        receivedLikes.add(match);
-        match.setUser2(Optional.of(this));
-    }
+    return optionalUser.orElseThrow(
+        () -> new IllegalArgumentException("User with identifier " + identifier + " not found."));
+  }
+
+  public void addSentLike(MatchedUser match) {
+
+    sentLikes.add(match);
+    match.setUser1(Optional.of(this));
+  }
+
+  public void addReceivedLike(MatchedUser match) {
+
+    receivedLikes.add(match);
+    match.setUser2(Optional.of(this));
+  }
 }
