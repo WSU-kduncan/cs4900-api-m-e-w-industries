@@ -1,4 +1,4 @@
-package com.MEW.demo.model;
+package com.mew.demo.model;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

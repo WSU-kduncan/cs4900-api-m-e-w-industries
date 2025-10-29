@@ -1,4 +1,4 @@
-package com.MEW.demo.controller;
+package com.mew.demo.controller;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.MEW.demo.dto.MatchInfoDto;
-import com.MEW.demo.dto.MatchedUserDto;
-import com.MEW.demo.exception.EntityNotFoundException;
-import com.MEW.demo.service.MatchService;
+
+import com.mew.demo.dto.MatchInfoDto;
+import com.mew.demo.dto.MatchedUserDto;
+import com.mew.demo.exception.EntityNotFoundException;
+import com.mew.demo.service.MatchService;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController

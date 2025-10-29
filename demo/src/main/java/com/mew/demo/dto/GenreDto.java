@@ -1,5 +1,6 @@
-package com.MEW.demo.dto;
-import com.MEW.demo.model.Genre;
+package com.mew.demo.dto;
+import com.mew.demo.model.Genre;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.Value;

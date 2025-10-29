@@ -1,22 +1,22 @@
-package com.MEW.demo.service;
-import com.MEW.demo.model.User;
-import com.MEW.demo.repository.ConsoleRepository;
-import com.MEW.demo.repository.GameRepository;
-import com.MEW.demo.repository.MatchedUserRepository;
-import com.MEW.demo.repository.UserGamesRepository;
-import com.MEW.demo.repository.UserRepository;
+package com.mew.demo.service;
 import jakarta.persistence.EntityExistsException;
 import org.springframework.transaction.annotation.Transactional;
+import com.mew.demo.dto.UserDto;
+import com.mew.demo.exception.EntityNotFoundException;
+import com.mew.demo.model.Game;
+import com.mew.demo.model.User;
+import com.mew.demo.repository.ConsoleRepository;
+import com.mew.demo.repository.GameRepository;
+import com.mew.demo.repository.MatchedUserRepository;
+import com.mew.demo.repository.UserGamesRepository;
+import com.mew.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.MEW.demo.dto.UserDto;
-import com.MEW.demo.exception.EntityNotFoundException;
 //import com.MEW.demo.mapper.UserDtoMapper;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.Set;
-import com.MEW.demo.model.Game;
 
 @RequiredArgsConstructor
 @Service

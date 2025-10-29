@@ -1,11 +1,11 @@
-package com.MEW.demo.repository;
+package com.mew.demo.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import com.MEW.demo.model.UserGames;
-import com.MEW.demo.model.UserGamesId;
+import com.mew.demo.model.UserGames;
+import com.mew.demo.model.UserGamesId;
 import jakarta.transaction.Transactional;
 
 @Repository

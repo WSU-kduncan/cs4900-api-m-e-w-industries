@@ -1,13 +1,13 @@
-package com.MEW.demo.repository;
+package com.mew.demo.repository;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import com.MEW.demo.dto.MatchInfoDto;
-import com.MEW.demo.model.MatchedUser;
-import com.MEW.demo.model.MatchedUserId;
+import com.mew.demo.dto.MatchInfoDto;
+import com.mew.demo.model.MatchedUser;
+import com.mew.demo.model.MatchedUserId;
 import jakarta.transaction.Transactional;
 
 @Repository

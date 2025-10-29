@@ -1,5 +1,5 @@
-package com.MEW.demo.dto;
-import com.MEW.demo.model.MatchedUser;
+package com.mew.demo.dto;
+import com.mew.demo.model.MatchedUser;
 import lombok.Builder;
 import lombok.Data;
 

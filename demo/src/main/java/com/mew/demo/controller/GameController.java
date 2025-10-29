@@ -1,15 +1,16 @@
-package com.MEW.demo.controller;
+package com.mew.demo.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.MEW.demo.dto.GameDto;
-import com.MEW.demo.exception.EntityNotFoundException;
-//import com.MEW.demo.mapper.GameDtoMapper;
-import com.MEW.demo.model.Game;
-import com.MEW.demo.service.GameService;
+
+import com.mew.demo.dto.GameDto;
+import com.mew.demo.exception.EntityNotFoundException;
+import com.mew.demo.model.Game;
+import com.mew.demo.service.GameService;
+
 import java.util.List;
 
 import org.springframework.http.HttpStatus;

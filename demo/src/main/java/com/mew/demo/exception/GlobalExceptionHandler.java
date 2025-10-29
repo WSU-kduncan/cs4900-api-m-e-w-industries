@@ -1,4 +1,4 @@
-package com.MEW.demo.exception;
+package com.mew.demo.exception;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;

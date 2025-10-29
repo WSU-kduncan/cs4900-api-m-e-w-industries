@@ -1,4 +1,4 @@
-package com.MEW.demo.model;
+package com.mew.demo.model;
 import jakarta.persistence.Embeddable;
 
 @Embeddable

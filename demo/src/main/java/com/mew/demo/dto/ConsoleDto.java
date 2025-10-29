@@ -1,8 +1,9 @@
-package com.MEW.demo.dto;
+package com.mew.demo.dto;
+import com.mew.demo.model.Console;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.Value;
-import com.MEW.demo.model.Console;
 
 @Builder
 @Data

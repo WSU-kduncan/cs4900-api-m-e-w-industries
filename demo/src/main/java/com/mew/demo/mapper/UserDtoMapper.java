@@ -1,11 +1,11 @@
-package com.MEW.demo.mapper;
+package com.mew.demo.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.web.bind.annotation.RequestBody;
-import com.MEW.demo.dto.UserDto;
-import com.MEW.demo.model.User;
-import com.MEW.demo.exception.EntityNotFoundException;
-import com.MEW.demo.service.UserService;
+import com.mew.demo.dto.UserDto;
+import com.mew.demo.exception.EntityNotFoundException;
+import com.mew.demo.model.User;
+import com.mew.demo.service.UserService;
 
 @Mapper(
     componentModel = "spring",

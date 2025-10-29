@@ -1,14 +1,13 @@
-package com.MEW.demo.service;
+package com.mew.demo.service;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import com.MEW.demo.dto.GameDto;
-import com.MEW.demo.exception.EntityNotFoundException;
-//import com.MEW.demo.mapper.GameDtoMapper;
-import com.MEW.demo.model.Game;
-import com.MEW.demo.model.Genre;
-import com.MEW.demo.repository.GameRepository;
-import com.MEW.demo.repository.GenreRepository;
+import com.mew.demo.dto.GameDto;
+import com.mew.demo.exception.EntityNotFoundException;
+import com.mew.demo.model.Game;
+import com.mew.demo.model.Genre;
+import com.mew.demo.repository.GameRepository;
+import com.mew.demo.repository.GenreRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 

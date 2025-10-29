@@ -1,4 +1,4 @@
-package com.MEW.demo.model;
+package com.mew.demo.model;
 import java.util.Optional;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

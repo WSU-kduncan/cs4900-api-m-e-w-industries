@@ -1,7 +1,7 @@
-package com.MEW.demo.mapper;
+package com.mew.demo.mapper;
 import org.mapstruct.Mapper;
-import com.MEW.demo.dto.GenreDto;
-import com.MEW.demo.model.Genre;
+import com.mew.demo.dto.GenreDto;
+import com.mew.demo.model.Genre;
 
 @Mapper(componentModel = "spring")
 public interface GenreDtoMapper {

@@ -1,4 +1,4 @@
-package com.MEW.demo.model;
+package com.mew.demo.model;
 import java.util.HashSet;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

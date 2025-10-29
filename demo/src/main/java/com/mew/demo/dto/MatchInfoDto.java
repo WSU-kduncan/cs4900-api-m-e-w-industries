@@ -1,4 +1,4 @@
-package com.MEW.demo.dto;
+package com.mew.demo.dto;
 
 public interface MatchInfoDto {
     String getFirstName();

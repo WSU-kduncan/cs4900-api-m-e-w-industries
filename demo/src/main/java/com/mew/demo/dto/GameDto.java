@@ -1,10 +1,12 @@
-package com.MEW.demo.dto;
+package com.mew.demo.dto;
 import java.util.HashSet;
 import java.util.Set;
-import com.MEW.demo.exception.EntityNotFoundException;
-import com.MEW.demo.model.Game;
-import com.MEW.demo.model.Genre;
-import com.MEW.demo.repository.GenreRepository;
+
+import com.mew.demo.exception.EntityNotFoundException;
+import com.mew.demo.model.Game;
+import com.mew.demo.model.Genre;
+import com.mew.demo.repository.GenreRepository;
+
 import lombok.Builder;
 import lombok.Data;
 

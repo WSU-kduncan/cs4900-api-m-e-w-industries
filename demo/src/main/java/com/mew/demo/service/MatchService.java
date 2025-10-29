@@ -1,19 +1,17 @@
-package com.MEW.demo.service;
+package com.mew.demo.service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.MEW.demo.dto.MatchInfoDto;
-import com.MEW.demo.dto.MatchedUserDto;
-import com.MEW.demo.exception.EntityNotFoundException;
-import com.MEW.demo.model.MatchedUser;
-import com.MEW.demo.model.MatchedUserId;
-import com.MEW.demo.model.User;
-import com.MEW.demo.repository.MatchedUserRepository;
-import com.MEW.demo.repository.UserRepository;
-
+import com.mew.demo.dto.MatchInfoDto;
+import com.mew.demo.dto.MatchedUserDto;
+import com.mew.demo.exception.EntityNotFoundException;
+import com.mew.demo.model.MatchedUser;
+import com.mew.demo.model.MatchedUserId;
+import com.mew.demo.model.User;
+import com.mew.demo.repository.MatchedUserRepository;
+import com.mew.demo.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 

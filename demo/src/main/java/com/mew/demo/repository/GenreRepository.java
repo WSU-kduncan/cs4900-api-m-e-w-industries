@@ -1,6 +1,6 @@
-package com.MEW.demo.repository;
+package com.mew.demo.repository;
 import org.springframework.stereotype.Repository;
-import com.MEW.demo.model.Genre;
+import com.mew.demo.model.Genre;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository

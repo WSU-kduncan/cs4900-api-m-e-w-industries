@@ -1,4 +1,4 @@
-package com.MEW.demo.model;
+package com.mew.demo.model;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Optional;
