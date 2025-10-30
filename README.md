@@ -81,6 +81,8 @@ From the `demo/` folder (where `build.gradle` lives):
 - `GET {{BASE_URL}}/users/id/:id` — Get a single user by numeric `:id`.  
 - `GET {{BASE_URL}}/users/name/:firstName` — Search users by `:firstName`.
 
+[GetAllGames](./homework/homework-2/GetAllGames200.PNG)
+
 ### PATCH
 - `PATCH {{BASE_URL}}/matches/:userId/:matchId` — Update an existing match record 
 
