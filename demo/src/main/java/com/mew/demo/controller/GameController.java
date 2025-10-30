@@ -6,6 +6,9 @@ import com.mew.demo.model.Game;
 import com.mew.demo.service.GameService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class GameController {
 
   private final GameService gameService;
+  private static final Logger log = LoggerFactory.getLogger(GameController.class);
   // private final GameDtoMapper gameDtoMapper;
 
   @GetMapping
@@ -52,6 +56,10 @@ public class GameController {
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<GameDto> createGame(@RequestBody GameDto gameDto)
       throws EntityNotFoundException {
+
+    // debug log: inspect what Jackson deserialized
+    log.debug("Received createGame request body mapped to GameDto: {}", gameDto);
+
     GameDto createdGame = gameService.createGame(gameDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(createdGame);
   }

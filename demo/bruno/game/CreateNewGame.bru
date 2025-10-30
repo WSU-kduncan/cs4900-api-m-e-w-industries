@@ -1,0 +1,25 @@
+meta {
+  name: CreateNewGame
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{BASE_URL}}/games
+  body: json
+  auth: inherit
+}
+
+body:json {
+    {
+    "gameTitle": "Tetrissss",
+    "singlePlayer": 0,
+    "multiPlayer": 0,
+    "primaryGenreId": 1
+    }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

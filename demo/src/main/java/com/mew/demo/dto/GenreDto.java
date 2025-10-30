@@ -1,13 +1,18 @@
 package com.mew.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mew.demo.model.Genre;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Value;
+import lombok.NoArgsConstructor;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Builder
 @Data
-@Value
+@NoArgsConstructor
+@AllArgsConstructor
 public class GenreDto {
 
   private Integer genreId;

@@ -3,7 +3,6 @@ package com.mew.demo.service;
 import com.mew.demo.dto.GameDto;
 import com.mew.demo.exception.EntityNotFoundException;
 import com.mew.demo.model.Game;
-import com.mew.demo.model.Genre;
 import com.mew.demo.repository.GameRepository;
 import com.mew.demo.repository.GenreRepository;
 import java.util.ArrayList;
@@ -59,14 +58,17 @@ public class GameService {
   @Transactional
   public GameDto createGame(GameDto dto) throws EntityNotFoundException {
 
-    Game game = new Game();
-
-    if (dto.getPrimaryGenre() != null && dto.getPrimaryGenre().getGenreId() != null) {
-      Genre genre = genreRepository
-          .findById(dto.getPrimaryGenre().getGenreId())
-          .orElseThrow(() -> new EntityNotFoundException("Genre not found"));
-      game.setPrimaryGenre(genre);
+    if (dto == null) {
+      throw new IllegalArgumentException("Request body is required");
     }
+    if (dto.getGameTitle() == null || dto.getGameTitle().trim().isEmpty()) {
+      throw new IllegalArgumentException("gameTitle is required");
+    }
+    if (dto.getPrimaryGenreId() == null || dto.getPrimaryGenreId() == null) {
+      throw new IllegalArgumentException("primaryGenre.genreId is required");
+    }
+
+    Game game = dto.toEntity(genreRepository);
 
     Game savedGame = gameRepository.save(game);
 
