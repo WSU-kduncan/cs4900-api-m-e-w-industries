@@ -72,29 +72,60 @@ From the `demo/` folder (where `build.gradle` lives):
 
 
 ### GET
-- `GET {{BASE_URL}}/games` — List all games.  
-- `GET {{BASE_URL}}/games/id/:id` — Get a single game by numeric `:id`.  
-- `GET {{BASE_URL}}/games/title/:title` — Find games by `:title`.  
-- `GET {{BASE_URL}}/matches/user/id/:id` — Get all matches for user `:id`.  
-- `GET {{BASE_URL}}/matches/:userId/:matchId` — Get the match record for `:userId` vs `:matchId`.  
-- `GET {{BASE_URL}}/users` — List all users.  
-- `GET {{BASE_URL}}/users/id/:id` — Get a single user by numeric `:id`.  
+- `GET {{BASE_URL}}/games` — List all games.
+
+![GETAllGames](./homework/homework-5/GetAllGames.PNG)
+  
+- `GET {{BASE_URL}}/games/id/:id` — Get a single game by numeric `:id`.
+
+![GETGameById](./homework/homework-5/GetGameById.PNG)
+ 
+- `GET {{BASE_URL}}/games/title/:title` — Find games by `:title`.
+
+![GETGameByTitle](./homework/homework-5/GetGameByTitle.PNG)
+
+- `GET {{BASE_URL}}/matches/user/id/:id` — Get all matches for user `:id`.
+
+![GETAllMatchedUsers](./homework/homework-5/GetAllMatchedUsers.PNG)
+
+- `GET {{BASE_URL}}/matches/:userId/:matchId` — Get the match record for `:userId` vs `:matchId`.
+
+![GETMatchInfo](./homework/homework-5/GetMatchInfo.PNG)
+
+- `GET {{BASE_URL}}/users` — List all users.
+
+![GETAllUsers](./homework/homework-5/GetAllUsers.PNG)
+
+- `GET {{BASE_URL}}/users/id/:id` — Get a single user by numeric `:id`.
+
+![GETUserById](./homework/homework-5/GetUserById.PNG)
+
 - `GET {{BASE_URL}}/users/name/:firstName` — Search users by `:firstName`.
 
+![GETUserByFirstName](./homework/homework-5/GetUserByFirstName.PNG)
+
 ### PATCH
-- `PATCH {{BASE_URL}}/matches/:userId/:matchId` — Update an existing match record 
+- `PATCH {{BASE_URL}}/matches/:userId/:matchId` — Update an existing match record
+
+![PATCHUpdateMatch](./homework/homework-5/UpdateMatch.PNG)
 
 ### POST
-- `POST {{BASE_URL}}/games` — Create a new game.  
+
 - `POST {{BASE_URL}}/users` — Create a new user.  
   **Body:** JSON user object.
+
+![POSTNewUser](./homework/homework-5/CreateNewUser.PNG)
 
 ### PUT
 - `PUT {{BASE_URL}}/users/id/:id` — Replace or update a user by `:id`.  
   **Body:** Full JSON user object.
 
+![PUTUser](./homework/homework-5/UpdateUser.PNG)
+
 ### DELETE
 - `DELETE {{BASE_URL}}/users/id/:id` — Delete a user by `:id`.
+
+![DELETEUser](./homework/homework-5/DeleteUser.PNG)
 
 **Notes**
 - Replace `:id`, `:userId`, `:matchId`, and `:firstName` with actual values.  
