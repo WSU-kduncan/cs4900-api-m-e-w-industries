@@ -1,5 +1,6 @@
 package com.mew.demo.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mew.demo.exception.EntityNotFoundException;
 import com.mew.demo.model.Game;
@@ -13,11 +14,16 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GameDto {
 
   @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -27,10 +33,10 @@ public class GameDto {
   private String gameTitle;
 
   @NotNull(message = "Single player field must be specified")
-  private boolean singlePlayer;
+  private Boolean singlePlayer;
 
   @NotNull(message = "Multi player field must be specified")
-  private boolean multiPlayer;
+  private Boolean multiPlayer;
 
   @NotNull(message = "Primary genre field must be specified")
   private Integer primaryGenreId;
