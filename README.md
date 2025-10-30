@@ -116,6 +116,10 @@ From the `demo/` folder (where `build.gradle` lives):
 
 ![POSTNewUser](./homework/homework-5/CreateNewUser.PNG)
 
+- `POST {{BASE_URL}}/games` - Create/add a game
+
+![POSTCreateNewGame](./homework/homework-5/CreateNewGame.PNG)
+
 ### PUT
 - `PUT {{BASE_URL}}/users/id/:id` — Replace or update a user by `:id`.  
   **Body:** Full JSON user object.
