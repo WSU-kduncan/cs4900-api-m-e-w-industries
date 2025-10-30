@@ -42,15 +42,16 @@ cs4900-api-m-e-w-industries
 Follow the **group DB repo** for schema and setup (Docker Compose, seed data, ports, credentials, etc.):  
 [DatabaseDesign/README.md](https://github.com/WSU-kduncan/cs4900-m-e-w-industries/blob/main/DatabaseDesign/README.md)
 
-1. **Start the database container** from `MEWdb/` (where `docker-compose.yml` lives).
+1. **Start the database container** from the `MEWdb/` directory (where `docker-compose.yml` lives) run:
 ```
 docker-compose up
 ```
+
 2. **Verify the connection** (e.g., in DBeaver) before starting the API.
 
 ## 4) Start the Service
 
-From the **`demo/`** folder (where `build.gradle` lives):
+From the `demo/` folder (where `build.gradle` lives):
 
 ```bash
 ./gradlew bootRun
