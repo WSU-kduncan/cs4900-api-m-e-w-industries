@@ -61,15 +61,16 @@ public class GameService {
 
     Game game = new Game();
 
-    if (dto.getPrimaryGenre() != null && dto.getPrimaryGenre().getGenreId() != null) {
+    if (dto.getPrimaryGenreId() != null && dto.getPrimaryGenreId() != null) {
       Genre genre = genreRepository
-          .findById(dto.getPrimaryGenre().getGenreId())
+          .findById(dto.getPrimaryGenreId())
           .orElseThrow(() -> new EntityNotFoundException("Genre not found"));
       game.setPrimaryGenre(genre);
     }
 
-    Game savedGame = gameRepository.save(game);
+    Game savedGame = new Game();
+    savedGame = dto.toEntity(genreRepository);
 
-    return GameDto.fromEntity(savedGame);
+    return GameDto.fromEntity(gameRepository.save(savedGame));
   }
 }
