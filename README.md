@@ -1,1 +1,1 @@
-# MEW INDUSTRIES API
+# MEW Industries API
